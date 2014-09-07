@@ -1,0 +1,60 @@
+Available command line flags:
+
+--niagara-home (default: {{ niagara-home }})
+    your Niagara installation directory
+--niagara-user-home (default: {{ niagara-user-home }})
+    your Niagara user directory
+--station-cwd (default: {{ station-cwd }})
+    directory containing the station executable
+--stations-dir (default: {{ stations-dir }})
+    directory containing station files
+--station-name (default: {{ station-name }})
+    the name of the station to start up
+--station-host (default: {{ station-host }})
+    the hostname of the station
+--station-http-port (default: {{ station-http-port }})
+    the HTTP port the station uses
+--station-https-port (default: {{ station-https-port }})
+    the HTTPS port the station users
+--station-fox-port (default: {{ station-fox-port }})
+    the FOX port the station uses
+--station-foxs-port (default: {{ station-foxs-port }})
+    the FOXS port the station uses
+--station-log-level (default: {{ station-log-level }})
+    desired station log output level (available log levels: NONE, SEVERE,
+    WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL) (In order to see
+    System.out.println output, choose ALL)
+--override-station-ports (default: {{ override-station-ports }})
+    inject station-http-port and station-fox-port into config.bog before
+    starting up the test station (useful for CI server where multiple tests
+    must run at once)
+--browsers (default: {{ browsers }})
+    a comma-separated list of browsers for Karma to start up
+    (available browsers: Chrome, ChromeCanary, Safari, Firefox,
+                         Opera, PhantomJS, IE)
+--jsdoc-dir (default: {{ jsdoc-dir }})
+    the output directory for JSDoc files
+--junit-reports-dir (default: {{ junit-reports-dir }})
+    the output directory for test results in JUnit format
+--jshint-reports-dir (default: {{ jshint-reports-dir }})
+    the output directory for JSHint results in JUnit format
+--complexity-reports-dir (default: {{ complexity-reports-dir }})
+    the output directory for Plato complexity results
+--coverage (default: {{ coverage }})
+    true if code coverage reports should be generated (by default they will
+    only be generated when executing the 'ci' task). Note that enabling code
+    coverage can remove line numbers from stack traces in the event
+    your tests throw an error.
+--coverage-reports-dir (default: {{ coverage-reports-dir }})
+    the output directory for Istanbul code coverage results
+--testOnly
+    this is a regex string. Only specs whose description matches this string
+    will be executed by Karma.
+--testNever
+    this is a regex string. Specs whose description matches this string will
+    never be executed by Karma.
+
+(note that in order for testOnly and testNever to work, you must require
+ the AMD modules 'niagara-test-server/karmaUtils' and
+ 'niagara-test-server/globals' when running your specs. Remember to do a
+ FULL test run before you push!)
