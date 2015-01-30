@@ -21,9 +21,11 @@ module.exports = {
   latedef: true,
   /** prohibit `arguments.caller` and `arguments.callee` */
   noarg: true,
+  /** don't treat Promise as a global, c.f. https://github.com/petkaantonov/bluebird/issues/301 */
+  predef: [ '-Promise' ],
   /** require `'use strict;'` */
   strict: true,
-  /** prohibit use of undeclared variables (use `global` directive instead */
+  /** prohibit use of undeclared variables (use `global` directive instead) */
   undef: true,
   /** prohibit defining variables and not using them */
   unused: 'vars',
