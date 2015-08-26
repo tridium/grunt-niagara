@@ -37,8 +37,10 @@ module.exports = {
 
     afterEach: false,
     beforeEach: false,
+    ddescribe: false,
     describe: false,
     expect: false,
+    iit: false,
     it: false,
     jasmine: false,
     runs: false,
