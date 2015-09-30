@@ -102,6 +102,7 @@ module.exports = function (grunt) {
       // process which will start up the station, niagara test server, and karma
       // runner.
       background: true,
+      reporters: [ 'dots' ], //https://github.com/karma-runner/karma/issues/1411
       singleRun: false
     },
 

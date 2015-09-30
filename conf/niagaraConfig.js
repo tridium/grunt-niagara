@@ -50,13 +50,20 @@ module.exports = function (grunt) {
   };
 
   if (grunt.config.getRaw('niagara.station')) {
+    var stationDebug = String(opts['station-debug']).toLowerCase() === 'true',
+        stationDebugSuspend = String(opts['station-debug-suspend']).toLowerCase() === 'true' ? 'y' : 'n',
+        stationDebugPort = opts['station-debug-port'] || '8000',
+        jvmArgs = stationDebug ? [ '-Xrunjdwp:transport=dt_socket,address=' +
+          stationDebugPort + ',server=y,suspend=' + stationDebugSuspend ] : [];
+
     newConfig.station = {
       cwd: stationCwd,
       stationsDir: stationsDir,
       command: 'station',
       stationName: stationName,
       bogOverrides: bogOverrides,
-      logLevel: logLevel
+      logLevel: logLevel,
+      jvmArgs: jvmArgs
     };
   }
 

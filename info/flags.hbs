@@ -20,6 +20,13 @@ Available command line flags:
     the FOX port the station uses
 --station-foxs-port (default: {{ station-foxs-port }})
     the FOXS port the station uses
+--station-debug (default: {{ station-debug }})
+    set to true to cause the station to run in JDWP debug mode
+--station-debug-port (default: {{ station-debug-port }})
+    specify the port for the JDWP transport to listen on
+--station-debug-suspend (default: {{ station-debug-suspend }})
+    set to true to cause the station to wait for you to connect a debugger
+    before executing
 --station-log-level (default: {{ station-log-level }})
     desired station log output level (available log levels: NONE, SEVERE,
     WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL) (In order to see
