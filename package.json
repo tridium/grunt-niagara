@@ -45,6 +45,7 @@
     "karma-script-launcher": "~0.1.0",
     "niagara-station": "^0.1.6",
     "niagara-test-server": "^0.1.10",
+    "requirejs": "^2.1.0",
     "strip-ansi": "^3.0.0",
     "temporary": "0.0.8"
   },
