@@ -49,4 +49,4 @@ module.exports = {
   
   /** grunt-niagara will configure to do its own run **/
   autoWatch: false
-}
+};

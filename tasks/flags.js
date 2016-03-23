@@ -3,8 +3,7 @@
 'use strict';
 
 var path = require('path'),
-    extend = require('../lib/deepExtend'),
-    cliDefaults = require('../lib/cliDefaults'),
+    parseOptions = require('../lib/parseOptions'),
     templateAndPrint = require('../lib/templateAndPrint');
 
 /**
@@ -15,15 +14,15 @@ var path = require('path'),
 module.exports = function (grunt) {
   grunt.registerTask('flags', 'Prints out available command line flags', function () {
     var fileName = path.resolve(__dirname, '../info/flags.hbs'),
-        defaults = extend({}, cliDefaults);
+        options = parseOptions(grunt);
 
     //stringify any boolean/number values
-    for (var prop in defaults) {
-      if (defaults.hasOwnProperty(prop)) {
-        defaults[prop] = String(defaults[prop]);
+    for (var prop in options) {
+      if (options.hasOwnProperty(prop)) {
+        options[prop] = String(options[prop]);
       }
     }
 
-    grunt.log.write(templateAndPrint(fileName, defaults));
+    grunt.log.write(templateAndPrint(fileName, options));
   });
 };
