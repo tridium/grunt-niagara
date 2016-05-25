@@ -17,8 +17,8 @@ module.exports = {
   forin: true,
   /** require parentheses around immediate function invocations */
   immed: true,
-  /** prohibit variables from being used before they are defined */
-  latedef: true,
+  /** prohibit variables from being used before they are defined. function hoisting ok. */
+  latedef: 'nofunc',
   /** prohibit `arguments.caller` and `arguments.callee` */
   noarg: true,
   /** don't treat Promise as a global, c.f. https://github.com/petkaantonov/bluebird/issues/301 */

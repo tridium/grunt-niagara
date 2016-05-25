@@ -109,7 +109,12 @@ module.exports = function (grunt) {
     // always enable code coverage for CI
     ci: extend(true, enableCodeCoverage(grunt, opts, {}), {
       //turn on html reporting as well
-      reporters: [ 'progress', 'junit', 'html', 'coverage' ],
+      reporters: [
+        'progress',
+        'junit',
+        //'html', //https://github.com/dtabuenc/karma-html-reporter/issues/25
+        'coverage'
+      ],
       htmlReporter: {
         outputDir: path.resolve(junitDir + '/karma_html/' + pkgName)
       }
