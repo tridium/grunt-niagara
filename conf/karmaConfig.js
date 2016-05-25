@@ -5,7 +5,8 @@
 var parseOptions = require('../lib/parseOptions'),
     extend = require('../lib/deepExtend'),
     path = require('path'),
-    karmaDefaults = require('./defaults/karmaDefaults');
+    karmaDefaults = require('./defaults/karmaDefaults'),
+    semver = require('semver');
 
 /**
  * Turns on code coverage reports for a Karma configuration object.
@@ -93,6 +94,13 @@ module.exports = function (grunt) {
   if (String(opts.coverage) === 'true') {
     defaultOptions = enableCodeCoverage(grunt, opts, defaultOptions);
   }
+  
+  var ciReporters = [ 'progress', 'junit', 'coverage' ];
+  if (semver.lt(process.version, 'v6.2.0')) {
+    //https://github.com/nodejs/node/blob/v6.2.0/doc/changelogs/CHANGELOG_V6.md#2016-04-26-version-600-current-jasnell
+    //https://github.com/dtabuenc/karma-html-reporter/issues/25
+    ciReporters.push('html');
+  }
 
   results = {
     options: defaultOptions,
@@ -109,12 +117,7 @@ module.exports = function (grunt) {
     // always enable code coverage for CI
     ci: extend(true, enableCodeCoverage(grunt, opts, {}), {
       //turn on html reporting as well
-      reporters: [
-        'progress',
-        'junit',
-        //'html', //https://github.com/dtabuenc/karma-html-reporter/issues/25
-        'coverage'
-      ],
+      reporters: ciReporters,
       htmlReporter: {
         outputDir: path.resolve(junitDir + '/karma_html/' + pkgName)
       }
