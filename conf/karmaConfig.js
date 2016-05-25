@@ -96,7 +96,7 @@ module.exports = function (grunt) {
   }
   
   var ciReporters = [ 'progress', 'junit', 'coverage' ];
-  if (semver.lt(process.version, 'v6.2.0')) {
+  if (semver.lt(process.version, 'v6.0.0')) {
     //https://github.com/nodejs/node/blob/v6.2.0/doc/changelogs/CHANGELOG_V6.md#2016-04-26-version-600-current-jasnell
     //https://github.com/dtabuenc/karma-html-reporter/issues/25
     ciReporters.push('html');
