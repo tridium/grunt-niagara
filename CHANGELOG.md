@@ -1,3 +1,12 @@
+<a name="0.1.24"></a>
+## 0.1.24 (2016/06/17)
+
+* Update PhantomJS to v2. The addition of websockets support may cause
+sporadic failure of BajaScript specs. This will be fixed in Niagara 4.3. In the
+meantime, if it affects your tests, configure your tests' `config.bog` to
+disable the `BoxService` websocket acceptor, and BajaScript will revert to the
+polling method.
+
 <a name="0.1.23"></a>
 ## 0.1.23 (2016/05/25)
 
