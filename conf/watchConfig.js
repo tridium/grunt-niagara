@@ -18,9 +18,24 @@ module.exports = function (grunt) {
     tasks = [],
     newConfig = {
       files: oldConfig.src,
-      tasks: tasks
+      tasks: ['_prewatch']
     };
   
+  grunt.registerTask('_prewatch', 'Task filter run before watch task.',
+    function() {
+      if (oldConfig.hasOwnProperty('tasks')) {
+        if (Array.isArray(oldConfig.tasks)) {
+          grunt.task.run(oldConfig.tasks.concat(tasks));
+        } else if (typeof oldConfig.tasks === 'function') {
+          grunt.task.run(oldConfig.tasks(tasks));
+        } else {
+          grunt.fail.warn('grunt.config.watch.tasks must be either an Array or a function.');
+        }
+      } else {
+        grunt.task.run(tasks);
+      }
+    });
+
   //TODO: why does grunt watch never log station output, even with logLevel: 'ALL'?
 
   if (grunt.config.getRaw('jshint')) {
