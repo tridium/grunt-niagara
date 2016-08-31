@@ -1,3 +1,22 @@
+<a name="0.1.26"></a>
+## 0.1.26 (2016/08/31)
+
+* Allow disabling coverage preprocessing by calling
+`grunt.option('coverage-preprocessors', false)`. Useful for using other modules
+that perform their own Karma preprocessing.
+* Allow any file under `src` or `srcTest` to be included by Karma, not just
+those under `rc` subfolders.
+* Restore `karma-html-reporter`.
+* Bump dependencies.
+
+
+<a name="0.1.25"></a>
+## 0.1.25 (2016/07/19)
+
+* Allow watch tasks to append or define as a function. This allows you to easily
+inject additional tasks like transpiling when running `grunt watch`.
+
+
 <a name="0.1.24"></a>
 ## 0.1.24 (2016/06/17)
 
