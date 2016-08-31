@@ -73,13 +73,13 @@ module.exports = function (grunt) {
       karmaHostname = grunt.config.get('karma.options.hostname') || karmaDefaults.hostname,
 
       results;
-
+      
   //ensure that requests for module files go through Karma so it can
   //apply the coverage preprocessing.
-  defaultOptions.proxies['/module/' + pkgName + '/rc/'] =
-    'http://' + karmaHostname + ':' + karmaPort + '/base/src/rc/';
-  defaultOptions.proxies['/module/' + pkgName + 'Test/rc/'] =
-    'http://' + karmaHostname + ':' + karmaPort + '/base/srcTest/rc/';
+  defaultOptions.proxies['/module/' + pkgName + '/'] =
+    'http://' + karmaHostname + ':' + karmaPort + '/base/src/';
+  defaultOptions.proxies['/module/' + pkgName + 'Test/'] =
+    'http://' + karmaHostname + ':' + karmaPort + '/base/srcTest/';
 
 
   if (grunt.config('niagara.station')) {

@@ -23,14 +23,8 @@ module.exports = {
     'srcTest/rc/browserMain.js',
 
     // all src and test modules (included: false)
-    { pattern: 'src/rc/**/*', included: false },
-    { pattern: 'srcTest/rc/**/*', included: false }
-  ],
-
-  /** don't include any min/built files */
-  exclude: [
-    '**/*.min.js',
-    '**/*.built.js'
+    { pattern: 'src/**/*', included: false },
+    { pattern: 'srcTest/**/*', included: false }
   ],
 
   /** use PhantomJS */
