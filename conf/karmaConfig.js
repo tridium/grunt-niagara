@@ -20,18 +20,22 @@ var parseOptions = require('../lib/parseOptions'),
  * reports
  */
 function enableCodeCoverage(grunt, opts, obj) {
-  var pkg = grunt.file.readJSON('package.json');
+  var pkg = grunt.file.readJSON('package.json'),
+      config = {
+        reporters: [ 'progress', 'junit', 'coverage' ],
+        coverageReporter: {
+          type: 'html',
+          dir: path.resolve(opts['coverage-reports-dir'] + '/' + pkg.name)
+        }
+      };
 
-  return extend(true, obj, {
-    preprocessors: {
+  if (String(grunt.option('coverage-preprocessors')) !== 'false') {
+    config.preprocessors = {
       '**/src/rc/**/*.js': 'coverage'
-    },
-    reporters: [ 'progress', 'junit', 'coverage' ],
-    coverageReporter: {
-      type: 'html',
-      dir: path.resolve(opts['coverage-reports-dir'] + '/' + pkg.name)
-    }
-  });
+    };
+  }
+
+  return extend(true, obj, config);
 }
 
 /**
