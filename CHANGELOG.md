@@ -1,3 +1,14 @@
+<a name="0.1.28"></a>
+## 0.1.28 (2017/05/06)
+
+Add niagara-moduledev and grunt-contrib-requirejs as dependencies, enabling
+Grunt-based optimization as an alternative to the Gradle plugin.
+
+<a name="0.1.27"></a>
+## 0.1.27 (2017/04/11)
+
+* Add IE browser launcher
+
 <a name="0.1.26"></a>
 ## 0.1.26 (2016/08/31)
 
