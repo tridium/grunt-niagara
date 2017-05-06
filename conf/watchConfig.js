@@ -10,7 +10,7 @@ var extend = require('../lib/deepExtend');
  *
  * Watch behavior will be to run JSHint and Karma tests upon every file change.
  *
- * @param {external:Grunt} grunt
+ * @param {Grunt} grunt
  * @returns {Object} `watch` Grunt configuration object
  */
 module.exports = function (grunt) {
