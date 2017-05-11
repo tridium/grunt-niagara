@@ -1,3 +1,12 @@
+<a name="0.1.29"></a>
+## 0.1.29 (2017/05/11)
+
+* Merge master requirejs options into individual task options (prevent child
+`paths` config from being overwritten).
+* Support `disablePlugins` for `baja!`, `lex!`, etc.
+* Default `findNestedDependencies` to true to match existing `niagara-rjs`
+behavior.
+
 <a name="0.1.28"></a>
 ## 0.1.28 (2017/05/06)
 
