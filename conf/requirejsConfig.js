@@ -3,20 +3,95 @@
 'use strict';
 
 var extend = require('../lib/deepExtend'),
-    requirejsDefaults = require('./defaults/requirejsDefaults');
+    moduledev = require('niagara-moduledev'),
+    defaultOptions = require('./defaults/requirejsDefaults');
+
+function toRequireJsId(filePath) {
+  return 'nmodule/<%= pkg.name %>/rc/' + filePath.replace(/\.js$/, '');
+}
+
+let mdPromise;
+function getModuledev() {
+  return mdPromise || (mdPromise = new Promise((resolve, reject) => {
+    moduledev.fromFile((err, md) => {
+      return err ? reject(err) : resolve(md);
+    });
+  }));
+}
+
+function toPaths(moduleResources) {
+  return getModuledev().then(md => new Promise((resolve, reject) => {
+    md.getRequireJsPaths(moduleResources, 
+      (err, paths) => err ? reject(err) : resolve(paths));
+  }));
+}
+
+function applyDisablePlugins(options) {
+  (options.disablePlugins || []).forEach(plugin => {
+    let rawText = options.rawText || (options.rawText = {}),
+        excludeShallow = options.excludeShallow || (options.excludeShallow = []);
+    
+    //add in a fake stub for this plugin to prevent r.js from even trying to execute it
+    rawText[plugin] = 'define({' +
+      'load:function(n,p,o,c){console.log(\"omitting ' + plugin + '!\" + n);o();}' +
+      '});';
+    
+    //make sure the fake stub is not included in the build
+    if (excludeShallow.indexOf(plugin) < 0) {
+      excludeShallow.push(plugin);
+    }
+  });
+  delete options.disablePlugins;
+}
 
 /**
  * Sets up defaults for
  * [grunt-contrib-requirejs](https://github.com/gruntjs/grunt-contrib-requirejs).
  *
  * @param {Grunt} grunt
- * @returns {Object} `requirejs` Grunt configuration object
+ * @returns {Promise.<Object>} `requirejs` Grunt configuration object
  */
 module.exports = function (grunt) {
-  var oldConfig = grunt.config.getRaw('requirejs') || {},
-      newConfig = {
-        options: requirejsDefaults
+  let config = grunt.config.getRaw('requirejs') || {},
+      masterOptions = config.options,
+      moduleName = grunt.config.get('pkg.name'),
+      addPath = {
+        paths: {
+          ['nmodule/' + moduleName]: 'src',
+          ['nmodule/' + moduleName + 'Test']: 'srcTest'
+        }
       };
-
-  return extend(true, newConfig, oldConfig);
+  
+  if (typeof config.src === 'undefined') {
+    config.src = {};
+  }
+  
+  return Promise.all(Object.keys(config).map(buildName => {
+    if (buildName === 'options') {
+      return; //not really a build
+    }
+    
+    let build = config[buildName];
+    if (build) {
+      let options = {};
+      if (buildName === 'src') {
+        options.include = grunt.file.expand({ cwd: './src/rc' }, ['**/*.js'])
+          .map(toRequireJsId);
+        options.out = 'build/src/rc/<%= pkg.name %>.built.min.js';
+      }
+      options = extend(true, options, addPath, defaultOptions, masterOptions && null, build.options);
+      applyDisablePlugins(options);
+      
+      return toPaths(options.moduleResources)
+        .then(function (paths) {
+          options.paths = extend(options.paths, paths);
+          grunt.log.debug(buildName + ' options:');
+          grunt.log.debug(JSON.stringify(options, null, 2));
+          build.options = options;
+        });
+    } else {
+      delete config[buildName];
+    }
+  }))
+    .then(() => config);
 };

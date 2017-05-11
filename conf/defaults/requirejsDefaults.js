@@ -7,19 +7,19 @@ module.exports = {
     "hbs": "nmodule/js/rc/require-handlebars-plugin/hbs",
     "underscore": "nmodule/js/rc/underscore/underscore"
   },
+  "disablePlugins": [ "baja", "css", "lex" ],
+  "findNestedDependencies": true,
   "paths": {
     "bajaScript": "empty:",
     "bajaux": "empty:",
+    "d3": "empty:",
     "dialogs": "empty:",
     "jquery": "empty:",
+    "moment": "empty:",
+    "niagaraSystemProperties": "empty:",
     "nmodule": "empty:",
     "Promise": "empty:"
   },
   "exclude": [ "Handlebars", "underscore", "hbs" ],
-  "rawText": {
-    "baja": "define({load:function(n,p,o,c){console.log(\"omitting baja!\" + n);o();}});",
-    "css": "define({load:function(n,p,o,c){console.log(\"omitting css!\" + n);o();}});",
-    "lex": "define({load:function(n,p,o,c){console.log(\"omitting lex!\" + n);o();}});"
-  },
-  "excludeShallow": [ "baja", "lex", "hbs" ]
+  "excludeShallow": [ "baja", "lex", "Handlebars", "underscore", "hbs" ]
 };

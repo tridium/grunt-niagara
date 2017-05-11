@@ -21,28 +21,22 @@ module.exports = function (grunt) {
     return;
   }
   
-  var config = requirejsConfig(grunt),
-      moduleResources = config.options.moduleResources;
-
   loadTasksRelative(grunt, 'grunt-contrib-requirejs');
   
-  grunt.config('requirejs-sync', config);
   grunt.renameTask('requirejs', 'requirejs-sync');
 
   grunt.registerTask('requirejs', 'Build a RequireJS project.', function () {
-    var done = this.async();
-    moduledev.fromFile(function (err, md) {
-      if (err) { console.error(err); return done(false); }
-      
-      md.getRequireJsPaths(moduleResources, function (err, paths) {
-        if (err) { console.error(err); return done(false); }
-        
+    let done = this.async();
+    return requirejsConfig(grunt)
+      .then(config => {
         grunt.config.merge({
-          "requirejs-sync": { options: { paths: paths } }
+          "requirejs-sync": config
         });
+        grunt.log.debug('requirejs configuration:');
+        grunt.log.debug(JSON.stringify(grunt.config.get('requirejs-sync'), null, 2));
         grunt.task.run('requirejs-sync');
         done();
-      });
-    });
+      })
+      .catch(err => { console.error(err); return done(false); });
   });
 };
