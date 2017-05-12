@@ -79,7 +79,7 @@ module.exports = function (grunt) {
           .map(toRequireJsId);
         options.out = 'build/src/rc/<%= pkg.name %>.built.min.js';
       }
-      options = extend(true, options, addPath, defaultOptions, masterOptions && null, build.options);
+      options = extend(true, options, addPath, defaultOptions, masterOptions, build.options);
       applyDisablePlugins(options);
       
       return toPaths(options.moduleResources)
