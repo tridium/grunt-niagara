@@ -3,7 +3,9 @@
 const fs = require('fs');
 
 function isPopulatedDirectory(dir) {
-  return fs.statSync(dir).isDirectory() && fs.readdirSync(dir).length;
+  return fs.existsSync(dir) &&
+    fs.statSync(dir).isDirectory() &&
+    fs.readdirSync(dir).length;
 }
 
 const populatedSrcDirs = [ 'src', 'srcTest', 'build/src', 'build/srcTest' ]
