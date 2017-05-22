@@ -1,3 +1,21 @@
+<a name="0.1.32"></a>
+## 0.1.32 (2017/05/22)
+
+* Provide `build/src` and `build/srcTest` as source folders for Karma. This
+  allows intermediary build artifacts to be included in unit tests.
+
+<a name="0.1.31"></a>
+## 0.1.31 (2017/05/18)
+
+* Remove unnecessary phantomjs-prebuilt dependency as this is covered by
+  karma-phantomjs-launcher. This allows global installation of
+  phantomjs-prebuilt to save disk space, if desired.
+
+<a name="0.1.30"></a>
+## 0.1.30 (2017/05/12)
+
+* Bugfix.
+
 <a name="0.1.29"></a>
 ## 0.1.29 (2017/05/11)
 
