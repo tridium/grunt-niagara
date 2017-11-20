@@ -18,22 +18,21 @@ var extend = require('../lib/deepExtend'),
  * @returns {Object} `jsdoc` Grunt configuration object
  */
 module.exports = function (grunt) {
-  var defaultJsdocPath = path.resolve(__dirname,
-        '../node_modules/grunt-jsdoc/node_modules/jsdoc/jsdoc'),
-      defaultTemplatePath = path.resolve(__dirname,
-        '../node_modules/ink-docstrap/template'),
+  var defaultJsdocPath = path.resolve(require.resolve('grunt-jsdoc'), '..', 'jsdoc', 'jsdoc'),
+      defaultTemplatePath = path.resolve(require.resolve('ink-docstrap'), '..'),
 
       oldConfig = grunt.config.getRaw('jsdoc') || {},
       src = oldConfig.src,
       newConfig = {
+        options: {
+          lenient: true,
+          recurse: true,
+          template: defaultTemplatePath,
+          destination: 'src/jsdoc'
+        },
         dist : {
           src: src,
           jsdoc: defaultJsdocPath,
-          options: {
-            lenient: true,
-            template: defaultTemplatePath,
-            destination: 'src/jsdoc'
-          }
         }
       };
 

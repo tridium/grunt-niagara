@@ -42,7 +42,7 @@ module.exports = function (grunt) {
     });
 
     grunt.config('_jsdoc', jsdocConfig(grunt));
-    grunt.config('_jsdoc.dist.options.configure', docstrapFile.path);
-    grunt.task.run('_jsdoc:dist', UNLINK_TASK_NAME);
+    grunt.config('_jsdoc.options.configure', docstrapFile.path);
+    grunt.task.run('_jsdoc', UNLINK_TASK_NAME);
   });
 };
