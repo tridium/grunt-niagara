@@ -54,6 +54,7 @@ module.exports = function (grunt) {
   var opts = parseOptions(grunt),
       pkg = grunt.file.readJSON('package.json'),
       pkgName = pkg.name,
+      moduleName = pkgName.replace(/-(ux|rt|wb|se|doc)$/, ''),
       karmaOptions = grunt.config.getRaw('karma.options'),
       testServerPort = opts['niagara-test-server-port'],
       junitDir = opts['junit-reports-dir'],
@@ -79,9 +80,9 @@ module.exports = function (grunt) {
       
   //ensure that requests for module files go through Karma so it can
   //apply the coverage preprocessing.
-  defaultOptions.proxies['/module/' + pkgName + '/'] =
+  defaultOptions.proxies['/module/' + moduleName + '/'] =
     'http://' + karmaHostname + ':' + karmaPort + '/base/src/';
-  defaultOptions.proxies['/module/' + pkgName + 'Test/'] =
+  defaultOptions.proxies['/module/' + moduleName + 'Test/'] =
     'http://' + karmaHostname + ':' + karmaPort + '/base/srcTest/';
 
 
