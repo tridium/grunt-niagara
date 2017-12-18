@@ -1,3 +1,16 @@
+<a name="0.1.35"></a>
+## 0.1.35 (2017/12/18)
+
+* Allow module name in package.json to include the runtime profile. This allows
+two different runtime profiles of the same module (e.g. `myModule-ux` and
+`myModule-wb`) to have their own suites of tests and not have their generated
+reports overwrite each other.
+
+<a name="0.1.34"></a>
+## 0.1.34 (2017/11/20)
+
+* Fix JSDoc generation.
+
 <a name="0.1.33"></a>
 ## 0.1.33 (2017/05/22)
 
