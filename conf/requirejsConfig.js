@@ -54,7 +54,7 @@ function applyDisablePlugins(options) {
 module.exports = function (grunt) {
   let config = grunt.config.getRaw('requirejs') || {},
       masterOptions = config.options,
-      moduleName = grunt.config.get('pkg.name'),
+      moduleName = grunt.config.get('pkg.name').replace(/-(ux|rt|wb|se|doc)$/, ''),
       addPath = {
         paths: {
           ['nmodule/' + moduleName]: 'src',
@@ -77,7 +77,7 @@ module.exports = function (grunt) {
       if (buildName === 'src') {
         options.include = grunt.file.expand({ cwd: './src/rc' }, ['**/*.js'])
           .map(toRequireJsId);
-        options.out = 'build/src/rc/<%= pkg.name %>.built.min.js';
+        options.out = 'build/src/rc/' + moduleName + '.built.min.js';
       }
       options = extend(true, options, addPath, defaultOptions, masterOptions, build.options);
       applyDisablePlugins(options);
