@@ -1,3 +1,8 @@
+<a name="0.1.36"></a>
+## 0.1.36 (2017/12/19)
+
+* Restore default RequireJS builtfile to moduleName, not pkgName.
+
 <a name="0.1.35"></a>
 ## 0.1.35 (2017/12/18)
 
