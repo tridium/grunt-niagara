@@ -1,3 +1,8 @@
+<a name="0.1.37"></a>
+## 0.1.37 (2018/2/2)
+
+* Fix problem with reporting JSHint failures in CI reports.
+
 <a name="0.1.36"></a>
 ## 0.1.36 (2017/12/19)
 
