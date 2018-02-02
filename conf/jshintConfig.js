@@ -29,7 +29,8 @@ module.exports = function (grunt) {
           options: {
             reporter: jshintJUnitReporter,
             reporterOutput: opts['jshint-reports-dir'] + '/' +
-              pkg.name + '-jshint.xml'
+              pkg.name + '-jshint.xml',
+            reporterOutputRelative: false
           }
         },
         options: jshintDefaults
