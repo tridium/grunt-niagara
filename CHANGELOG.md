@@ -1,3 +1,8 @@
+<a name="0.1.38"></a>
+## 0.1.38 (2018/3/9)
+
+* Add log! to excluded RequireJS plugins (affects Niagara 4.6+).
+
 <a name="0.1.37"></a>
 ## 0.1.37 (2018/2/2)
 
