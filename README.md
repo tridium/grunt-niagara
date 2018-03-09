@@ -142,12 +142,12 @@ the Niagara RequireJS module ID convention, where `nmodule` maps to a URL
 starting with `/module`. Therefore a file at `src/rc/foo.js` should map to
 the RequireJS ID `nmodule/yourModuleName/rc/foo`.
 
-RequireJS plugins `baja!`, `css!`, and `lex!` will be disabled during the build,
-as they only make sense in the context of a running station. To configure this
-list, set your `disablePlugins` option to an array of plugin names (omitting the
-'!'). Other common Niagara modules like `bajaux` and `Promise` will be excluded
-using the `empty:` syntax. Handlebars templates will be compiled using the copy
-of Handlebars from the `js` module jar.
+RequireJS plugins `baja!`, `css!`, `log!`, and `lex!` will be disabled during
+the build, as they only make sense in the context of a running station. To
+configure this list, set your `disablePlugins` option to an array of plugin
+names (omitting the '!'). Other common Niagara modules like `bajaux` and
+`Promise` will be excluded using the `empty:` syntax. Handlebars templates will
+be compiled using the copy of Handlebars from the `js` module jar.
 
 One build task named `src` will be present, so you can override default behavior
 like this:
