@@ -1,3 +1,15 @@
+<a name="0.1.39"></a>
+## 0.1.39 (2018/5/23)
+
+Default browser to ChromeHeadless when either:
+
+* `puppeteer` is installed (can be installed globally when `NODE_PATH` is set
+   to include the global `node_modules` directory), or
+* `CHROME_BIN` environment variable is set.
+
+Otherwise PhantomJS will remain the default. ChromeHeadless can be used anyway
+with the command line flag `--browsers=ChromeHeadless`.
+
 <a name="0.1.38"></a>
 ## 0.1.38 (2018/3/9)
 
@@ -102,7 +114,7 @@ polling method.
 
 * Update dependencies to fix npm3 incompatibilities
 * Disable karma-html-reporter for Node v6.2.0+ (issue 25)
-* Temporarily omitting PhantomJS v2 upgrade due to incompatibility with 
+* Temporarily omitting PhantomJS v2 upgrade due to incompatibility with
   BajaScript + websockets
 
 <a name="0.1.22"></a>
