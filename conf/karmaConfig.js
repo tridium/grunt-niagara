@@ -51,7 +51,7 @@ function enableCodeCoverage(grunt, opts, obj) {
  * @returns {Object} `karma` Grunt configuration object
  */
 module.exports = function (grunt) {
-  var opts = parseOptions(grunt),
+  let opts = parseOptions(grunt),
       pkg = grunt.file.readJSON('package.json'),
       pkgName = pkg.name,
       moduleName = pkgName.replace(/-(ux|rt|wb|se|doc)$/, ''),
@@ -60,6 +60,7 @@ module.exports = function (grunt) {
       junitDir = opts['junit-reports-dir'],
       stationHost = opts['station-host'],
       stationPort = opts['station-http-port'],
+      chromeFlags = opts['chrome-flags'],
 
       defaultOptions = extend(true, {}, karmaDefaults, {
         junitReporter: {
@@ -77,6 +78,20 @@ module.exports = function (grunt) {
       karmaHostname = grunt.config.get('karma.options.hostname') || karmaDefaults.hostname,
 
       results;
+
+  //pass Chrome flags to the appropriate Chrome launchers, and switch to
+  //custom Karma launchers that respect them.
+  if (chromeFlags) {
+    chromeFlags = chromeFlags.split(',');
+
+    defaultOptions = extend(defaultOptions, {
+      browsers: defaultOptions.browsers.map(b => b.replace('Chrome', 'ChromeWithFlags')),
+      customLaunchers: {
+        ChromeWithFlags: { base: 'Chrome', flags: chromeFlags },
+        ChromeWithFlagsHeadless: { base: 'ChromeHeadless', flags: chromeFlags }
+      }
+    });
+  }
       
   //ensure that requests for module files go through Karma so it can
   //apply the coverage preprocessing.
@@ -99,7 +114,7 @@ module.exports = function (grunt) {
     defaultOptions = enableCodeCoverage(grunt, opts, defaultOptions);
   }
   
-  var ciReporters = [ 'progress', 'junit', 'coverage', 'html' ];
+  let ciReporters = [ 'progress', 'junit', 'coverage', 'html' ];
 
   results = {
     options: defaultOptions,
@@ -124,5 +139,11 @@ module.exports = function (grunt) {
     }, grunt.config.getRaw('karma.ci'))
   };
 
-  return extend({}, results, grunt.config.getRaw('karma'));
+  const karmaConfig = extend({}, results, grunt.config.getRaw('karma'));
+
+  try {
+    grunt.log.debug(JSON.stringify(karmaConfig, null, 2));
+  } catch (ignore) {}
+
+  return karmaConfig;
 };

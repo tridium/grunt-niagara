@@ -1,4 +1,6 @@
-Available command line flags:
+These are the available command-line flags to pass to grunt-niagara. Note that
+the defaults listed are determined based on your environment and can change
+between different Niagara modules.
 
 --niagara-home (default: {{ niagara-home }})
     your Niagara installation directory
@@ -39,6 +41,9 @@ Available command line flags:
     a comma-separated list of browsers for Karma to start up
     (available browsers: Chrome, ChromeCanary, Safari, Firefox,
                          Opera, PhantomJS, IE)
+--chrome-flags
+    if using Chrome, add an optional, comma-separated list of flags to pass to
+    the executable
 --jsdoc-dir (default: {{ jsdoc-dir }})
     the output directory for JSDoc files
 --junit-reports-dir (default: {{ junit-reports-dir }})
