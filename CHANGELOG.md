@@ -1,3 +1,8 @@
+<a name="0.1.40"></a>
+## 0.1.40 (2018/5/30)
+
+* Add `--chrome-flags` command line flag.
+
 <a name="0.1.39"></a>
 ## 0.1.39 (2018/5/23)
 
