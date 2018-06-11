@@ -1,3 +1,9 @@
+<a name="0.1.41"></a>
+## 0.1.41 (2018/6/11)
+
+* Temporarily revert karma to 1.3.0 to resolve "no message in 10000ms" errors
+  when testing in Chrome.
+
 <a name="0.1.40"></a>
 ## 0.1.40 (2018/5/30)
 
