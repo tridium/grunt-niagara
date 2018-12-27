@@ -59,7 +59,7 @@ module.exports = function runGrunt(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jsdoc:     { src: SRC_FILES },
-    jshint:    { src: SRC_FILES },
+    eslint:    { src: SRC_FILES },
     plato:     { src: SRC_FILES },
     watch:     { src: SRC_FILES },
     karma:     {},
@@ -86,17 +86,18 @@ Generates JSDocs and places them in `jsdoc-dir`.
 
 `src`: array of file definitions to process for JSDoc
 
-### `jshint`
+### `eslint`
 
-Performs JSHint analysis and fails the build if any errors are found. Error
-report will be placed in `jshint-reports-dir`.
+Performs ESLint analysis and fails the build if any errors are found. Error
+report will be placed in `eslint-reports-dir`.
 
-Tip: If running JSHint direct from the command line, type `jshint:src` to get
-output formatted for display.
+Tip: If running ESLint direct from the command line, type `eslint:src` to get
+output formatted for display. Type `eslint:fix` to automatically fix all
+fixable errors.
 
 **Minimal config:**
 
-`src`: array of file definitions to analyze with JSHint.
+`src`: array of file definitions to analyze with ESLint.
 
 ### `karma`
 
@@ -185,7 +186,7 @@ described.
 
 ### `watch`
 
-Starts up in watch mode, performing JSHint analysis and running Karma tests
+Starts up in watch mode, performing ESLint analysis and running Karma tests
 every time you save a file.
 
 If you want to customize which Grunt tasks are run when you save a file, pass
@@ -195,7 +196,7 @@ a function as a `tasks` parameter like this:
 watch: {
   src: SRC_FILES,
   tasks: function (defaultTasks) {
-    // the default tasks run JSHint followed by Karma.
+    // the default tasks run ESLint followed by Karma.
     return [ 'run-first' ].concat(defaultTasks).concat([ 'run-after' ]);
   }
 }

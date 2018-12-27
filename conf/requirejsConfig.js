@@ -4,7 +4,8 @@
 
 var extend = require('../lib/deepExtend'),
     moduledev = require('niagara-moduledev'),
-    defaultOptions = require('./defaults/requirejsDefaults');
+    defaultOptions = require('./defaults/requirejsDefaults'),
+    pify = require('pify');
 
 function toRequireJsId(filePath) {
   return 'nmodule/<%= pkg.name %>/rc/' + filePath.replace(/\.js$/, '');
@@ -12,18 +13,11 @@ function toRequireJsId(filePath) {
 
 let mdPromise;
 function getModuledev() {
-  return mdPromise || (mdPromise = new Promise((resolve, reject) => {
-    moduledev.fromFile((err, md) => {
-      return err ? reject(err) : resolve(md);
-    });
-  }));
+  return mdPromise || (mdPromise = pify(moduledev).fromFile());
 }
 
 function toPaths(moduleResources) {
-  return getModuledev().then(md => new Promise((resolve, reject) => {
-    md.getRequireJsPaths(moduleResources, 
-      (err, paths) => err ? reject(err) : resolve(paths));
-  }));
+  return getModuledev().then(md => pify(md).getRequireJsPaths(moduleResources));
 }
 
 function applyDisablePlugins(options) {
@@ -33,7 +27,7 @@ function applyDisablePlugins(options) {
     
     //add in a fake stub for this plugin to prevent r.js from even trying to execute it
     rawText[plugin] = 'define({' +
-      'load:function(n,p,o,c){console.log(\"omitting ' + plugin + '!\" + n);o();}' +
+      'load:function(n,p,o,c){console.log("omitting ' + plugin + '!" + n);o();}' +
       '});';
     
     //make sure the fake stub is not included in the build
@@ -75,7 +69,7 @@ module.exports = function (grunt) {
     if (build) {
       let options = {};
       if (buildName === 'src') {
-        options.include = grunt.file.expand({ cwd: './src/rc' }, ['**/*.js'])
+        options.include = grunt.file.expand({ cwd: './src/rc' }, [ '**/*.js' ])
           .map(toRequireJsId);
         options.out = 'build/src/rc/' + moduleName + '.built.min.js';
       }

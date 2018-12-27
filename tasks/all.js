@@ -3,13 +3,13 @@
 'use strict';
 
 /**
- * The `all` task runs JSHint, Karma, JSDoc, and Plato.
+ * The `all` task runs ESLint, Karma, JSDoc, and Plato.
  *
  * @param {Grunt} grunt
  */
 module.exports = function (grunt) {
   var tasks = [],
-      availableTasks = [ 'jshint', 'karma', 'jsdoc', 'plato' ],
+      availableTasks = [ 'eslint', 'karma', 'jsdoc', 'plato' ],
       i;
 
   for (i = 0; i < availableTasks.length; i++) {

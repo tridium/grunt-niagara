@@ -6,14 +6,9 @@
 
 'use strict';
 
-var extend = require('./lib/deepExtend');
+module.exports = function (grunt) {
 
-module.exports = function(grunt) {
-
-  var jshintDefaults = extend(require('./conf/defaults/jshintDefaults'), {
-        node: true
-      }),
-      SRC_FILES = [
+  var SRC_FILES = [
         'Gruntfile.js',
         'conf/**/*.js',
         'lib/**/*.js',
@@ -22,9 +17,9 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    jshint: {
+    eslint: {
       src: SRC_FILES,
-      options: jshintDefaults
+      options: { configFile: '.eslintrc.json', envs: [ 'node' ] }
     },
     jsdoc: {
       src: SRC_FILES.concat([ 'README.md' ])
@@ -35,9 +30,9 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('gruntify-eslint');
 
   // By default, lint.
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', [ 'eslint' ]);
 
 };

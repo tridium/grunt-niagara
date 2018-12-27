@@ -30,9 +30,9 @@ module.exports = function (grunt) {
           template: defaultTemplatePath,
           destination: 'src/jsdoc'
         },
-        dist : {
+        dist: {
           src: src,
-          jsdoc: defaultJsdocPath,
+          jsdoc: defaultJsdocPath
         }
       };
 

@@ -2,8 +2,7 @@
 
 'use strict';
 
-var moduledev = require('niagara-moduledev'),
-    requirejsConfig = require('../conf/requirejsConfig'),
+var requirejsConfig = require('../conf/requirejsConfig'),
     loadTasksRelative = require('../lib/loadTasksRelative');
 
 /**

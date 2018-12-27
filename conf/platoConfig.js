@@ -9,7 +9,7 @@ var parseOptions = require('../lib/parseOptions'),
  * Sets up defaults for
  * [grunt-plato](https://github.com/jsoverson/grunt-plato).
  *
- * JSHint will be disabled (it's already covered by the `jshint` task) and
+ * JSHint will be disabled (it's already covered by the `eslint` task) and
  * build/built files will be excluded.
  *
  * @param {external:Grunt} grunt
