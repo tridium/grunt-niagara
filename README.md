@@ -60,7 +60,6 @@ module.exports = function runGrunt(grunt) {
 
     jsdoc:     { src: SRC_FILES },
     eslint:    { src: SRC_FILES },
-    plato:     { src: SRC_FILES },
     watch:     { src: SRC_FILES },
     karma:     {},
     niagara:   {
@@ -117,15 +116,6 @@ No configuration necessary. An empty object will enable Karma tests.
 
 Configures a station to start up for Karma tests. See the `niagara-station` npm
 module.
-
-### `plato`
-
-Performs complexity/maintainability analysis. Report will be placed in
-`complexity-reports-dir`.
-
-**Minimal config:**
-
-`src`: array of file definitions to analyze with Plato.
 
 ### `pkg`
 

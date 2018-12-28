@@ -17,7 +17,6 @@ module.exports = function (grunt) {
       eslint: grunt.config('eslint'),
       karma: grunt.config('karma'),
       jsdoc: grunt.config('jsdoc'),
-      plato: grunt.config('plato'),
       watch: grunt.config('watch')
     }));
   });
