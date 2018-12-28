@@ -4,6 +4,10 @@
 
 const { allConfigFiles, allJsFiles } = require('../lib/gruntSources');
 
+/**
+ * @param {IGrunt} grunt
+ * @returns {object} configuration for `copy` task
+ */
 module.exports = function (grunt) {
   return {
     dist: {

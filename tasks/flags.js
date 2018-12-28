@@ -11,7 +11,7 @@ var path = require('path'),
 /**
  * The `flags` task prints out available command line flags.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   grunt.registerTask('flags', 'Prints out available command line flags', function () {

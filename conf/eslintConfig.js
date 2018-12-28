@@ -17,8 +17,8 @@ const path = require('path'),
  * in JUnit format to a file in `eslint-reports-dir`; and `eslint:fix` which
  * will attempt to automatically fix failures.
  *
- * @param {external:Grunt} grunt
- * @returns {Object} `eslint` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Object} configuration for `eslint` task
  */
 module.exports = function (grunt) {
   const opts = parseOptions(grunt),

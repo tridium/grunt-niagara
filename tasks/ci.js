@@ -7,7 +7,7 @@
 /**
  * The `ci` task runs ESLint and Karma, with code coverage reports generated.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   var tasks = [];

@@ -7,7 +7,7 @@
 /**
  * The `all` task runs ESLint, Karma, and JSDoc.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   var tasks = [],

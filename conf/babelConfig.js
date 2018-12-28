@@ -5,6 +5,10 @@
 const { allJsFiles } = require('../lib/gruntSources');
 const extend = require('../lib/deepExtend');
 
+/**
+ * @param {IGrunt} grunt
+ * @returns {object} configuration for `babel` task
+ */
 module.exports = function (grunt) {
   let config = grunt.config.getRaw('babel') || {};
 

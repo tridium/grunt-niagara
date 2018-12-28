@@ -15,7 +15,7 @@ var templateAndPrint = require('../lib/templateAndPrint'),
 /**
  * The `jsdoc` task generates JSDoc documentation using Docstrap.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   if (!grunt.config('jsdoc')) {

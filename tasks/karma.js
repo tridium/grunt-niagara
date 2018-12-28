@@ -13,7 +13,7 @@ var parseOptions = require('../lib/parseOptions'),
  * The `karma` task runs unit tests using Karma. `karma:ci` also generates
  * code coverage reports.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   if (!grunt.config('karma')) {

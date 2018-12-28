@@ -14,8 +14,8 @@ var path = require('path'),
  * If `override-station-ports` is set, will configure `niagara-station` to
  * inject HTTP and FOX ports into `config.bog` before starting up the station.
  *
- * @param {external:Grunt} grunt
- * @returns {Object} `niagara` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Object} configuration for `niagara` task
  */
 module.exports = function (grunt) {
   var opts = parseOptions(grunt),

@@ -44,8 +44,8 @@ function applyDisablePlugins(options) {
  * Sets up defaults for
  * [grunt-contrib-requirejs](https://github.com/gruntjs/grunt-contrib-requirejs).
  *
- * @param {Grunt} grunt
- * @returns {Promise.<Object>} `requirejs` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Promise.<Object>} configuration for `requirejs` task
  */
 module.exports = function (grunt) {
   let config = grunt.config.getRaw('requirejs') || {},

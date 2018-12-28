@@ -12,8 +12,8 @@ var extend = require('../lib/deepExtend');
  *
  * Watch behavior will be to run ESLint and Karma tests upon every file change.
  *
- * @param {Grunt} grunt
- * @returns {Object} `watch` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Object} configuration for `watch` task
  */
 module.exports = function (grunt) {
   var oldConfig = grunt.config.getRaw('watch') || {},

@@ -10,7 +10,7 @@ var eslintConfig = require('../conf/eslintConfig'),
 /**
  * The `eslint` task runs ESLint validation on all source files.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   if (!grunt.config('eslint')) {

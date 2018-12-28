@@ -11,7 +11,7 @@ var watchConfig = require('../conf/watchConfig'),
  * The `watch` task spins up a Niagara station (if necessary) and a Karma
  * server, then executes ESLint and Karma tests on every file save.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   if (!grunt.config('watch')) {

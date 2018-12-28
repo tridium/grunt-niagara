@@ -1,8 +1,4 @@
-/**
- * Grunt object.
- * @external Grunt
- * @see http://gruntjs.com/api/grunt
- */
+/* eslint-env node */
 
 'use strict';
 

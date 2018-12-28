@@ -6,6 +6,9 @@ const babelConfig = require('../conf/babelConfig'),
   copyConfig = require('../conf/copyConfig'),
   loadTasksRelative = require('../lib/loadTasksRelative');
 
+/**
+ * @param {IGrunt} grunt
+ */
 module.exports = function (grunt) {
   if (!grunt.config('babel')) { return; }
 

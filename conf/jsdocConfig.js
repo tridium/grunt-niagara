@@ -16,8 +16,8 @@ var extend = require('../lib/deepExtend'),
  * [ink-docstrap](https://github.com/terryweiss/docstrap),
  * `lenient` will set set to true, and docs will go in `src/jsdoc`.
  *
- * @param {external:Grunt} grunt
- * @returns {Object} `jsdoc` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Object} configuration for `jsdoc` task
  */
 module.exports = function (grunt) {
   var defaultJsdocPath = path.resolve(require.resolve('grunt-jsdoc'), '..', 'jsdoc', 'jsdoc'),

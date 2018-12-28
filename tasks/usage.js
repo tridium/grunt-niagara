@@ -10,7 +10,7 @@ var path = require('path'),
 /**
  * The `usage` task prints out information on how to use `grunt-niagara`.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   grunt.registerTask('usage', 'Prints out usage information', function () {

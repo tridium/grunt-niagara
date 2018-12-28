@@ -14,7 +14,7 @@ var parseOptions = require('../lib/parseOptions'),
  *
  * @private
  * @inner
- * @param {external:Grunt} grunt
+ * @param {IGrunt} grunt
  * @param {grunt-niagara~Options} opts parsed grunt options
  * @param {Object} obj object to extend
  * @returns {Object} options object configured for Karma to run code coverage
@@ -49,8 +49,8 @@ function enableCodeCoverage(grunt, opts, obj) {
  * a `watch` task); and `karma:ci` which is the same as `karma` but with code
  * coverage reports turned on.
  *
- * @param {external:Grunt} grunt
- * @returns {Object} `karma` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Object} configuration for `karma` task
  */
 module.exports = function (grunt) {
   let opts = parseOptions(grunt),

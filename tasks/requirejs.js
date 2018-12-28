@@ -15,7 +15,7 @@ var requirejsConfig = require('../conf/requirejsConfig'),
  * These are specified using the nonstandard `moduleResources` property on the
  * `requirejs` config options.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   if (!grunt.config('requirejs')) {
