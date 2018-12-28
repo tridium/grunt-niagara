@@ -51,5 +51,8 @@ module.exports = {
   singleRun: true,
   
   /** grunt-niagara will configure to do its own run **/
-  autoWatch: false
+  autoWatch: false,
+
+  /** allow some extra time if browser gets CPU starved */
+  browserNoActivityTimeout: 60000
 };

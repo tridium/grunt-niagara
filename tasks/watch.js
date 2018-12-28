@@ -27,6 +27,10 @@ module.exports = function (grunt) {
     tasks.push('karma-connect');
   }
 
+  if (grunt.config('babel')) {
+    tasks = [ 'babel:watch', 'copy' ].concat(tasks);
+  }
+
   tasks.push('_watch');
 
   grunt.registerTask('watch', tasks);

@@ -72,7 +72,7 @@ module.exports = function (grunt) {
         proxies: {
           '/niagara-test-server/': 'http://localhost:' + testServerPort + '/public/'
         }
-      }, karmaOptions),
+      }),
 
       karmaPort = grunt.config.getRaw('karma.options.port') || karmaDefaults.port,
       karmaHostname = grunt.config.get('karma.options.hostname') || karmaDefaults.hostname,
@@ -113,11 +113,22 @@ module.exports = function (grunt) {
   if (String(opts.coverage) === 'true') {
     defaultOptions = enableCodeCoverage(grunt, opts, defaultOptions);
   }
+
+  if (grunt.config('babel')) {
+    defaultOptions.files = [
+      'build/karma/srcTest/rc/browserMain.js',
+      { pattern: 'build/**/*', included: false }
+    ];
+    defaultOptions.proxies['/module/' + moduleName + '/'] =
+      'http://' + karmaHostname + ':' + karmaPort + '/base/build/karma/src/';
+    defaultOptions.proxies['/module/' + moduleName + 'Test/'] =
+      'http://' + karmaHostname + ':' + karmaPort + '/base/build/karma/srcTest/';
+  }
   
   let ciReporters = [ 'progress', 'junit', 'coverage', 'html' ];
 
   results = {
-    options: defaultOptions,
+    options: extend(defaultOptions, karmaOptions),
 
     watch: {
       // in watch mode, the background flag will let us spawn off a child

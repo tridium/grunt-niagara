@@ -36,14 +36,12 @@ module.exports = function (grunt) {
       }
     });
 
-  //TODO: why does grunt watch never log station output, even with logLevel: 'ALL'?
+  if (grunt.config.getRaw('karma')) {
+    tasks.push('karma:watch:run');
+  }
 
   if (grunt.config.getRaw('eslint')) {
     tasks.push('eslint:src');
-  }
-
-  if (grunt.config.getRaw('karma')) {
-    tasks.push('karma:watch:run');
   }
 
   delete oldConfig.src;
