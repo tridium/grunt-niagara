@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 /** @module */
 
 'use strict';
