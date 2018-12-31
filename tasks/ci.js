@@ -20,7 +20,7 @@ module.exports = function (grunt) {
   }
 
   if (grunt.config('babel')) {
-    tasks = [ 'babel:coverage', 'babel:spec', 'copy' ].concat(tasks);
+    tasks = [ 'babel:coverage', 'babel:spec', 'copy:karma' ].concat(tasks);
   }
 
   grunt.registerTask('ci', tasks);

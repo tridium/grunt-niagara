@@ -3,6 +3,7 @@
 'use strict';
 
 const { allJsFiles } = require('../lib/gruntSources');
+const { flatten, forOwn, map } = require('lodash');
 const extend = require('../lib/deepExtend');
 
 /**
@@ -14,38 +15,75 @@ module.exports = function (grunt) {
 
   grunt.option('coverage-preprocessors', false);
 
+  const {
+    source = { 'src/rc': 'build/src/rc' },
+    test = { 'srcTest/rc': 'build/srcTest/rc' }
+  } = config;
+
+  forOwn(source, destDir => {
+    if (!destDir.startsWith('build/src/')) {
+      throw new Error('source files must transpile into build/src/');
+    }
+  });
+
+  forOwn(test, destDir => {
+    if (!destDir.startsWith('build/srcTest/')) {
+      throw new Error('test files must transpile into build/srcTest/');
+    }
+  });
+
   const defaults = {
     options: {
       presets: [ 'es2015-without-strict' ]
     },
+
     // for distribution, simply transpile all JS files into the build directory
     // to package directly into the jar.
     dist: {
-      files: [
-        allJsFiles().from('src/rc').to('build/src/rc'),
-        allJsFiles().from('srcTest/rc').to('build/srcTest/rc')
-      ]
+      files: flatten([
+        toDistFolder(source, allJsFiles()),
+        toDistFolder(test, allJsFiles())
+      ])
     },
+
     // when watching, generate sourcemaps so debugging in Chrome works.
     watch: {
       options: { sourceMap: true },
-      files: [
-        allJsFiles().from('src/rc').to('build/karma/src/rc'),
-        allJsFiles().from('srcTest/rc').to('build/karma/srcTest/rc')
-      ]
+      files: flatten([
+        toKarmaFolder(source, allJsFiles()),
+        toKarmaFolder(test, allJsFiles())
+      ])
     },
+
     // for CI, generate coverage reports.
     coverage: {
       options: { plugins: [ 'istanbul' ] },
-      files: [ allJsFiles().from('src/rc').to('build/karma/src/rc') ]
+      files: toKarmaFolder(source, allJsFiles())
     },
-    // transpile specs only.
+
+    // for CI, transpile specs *without* coverage reports.
     spec: {
-      files: [
-        allJsFiles().from('srcTest/rc').to('build/karma/srcTest/rc')
-      ]
+      files: toKarmaFolder(test, allJsFiles())
     }
   };
 
   return extend({}, defaults, config);
 };
+
+/**
+ * @param {object} dirMap source dir -> dest dir mapping
+ * @param {object} gruntSrc
+ * @returns {Array.<object>} Grunt file config objects
+ */
+function toDistFolder(dirMap, gruntSrc) {
+  return map(dirMap, (dest, src) => gruntSrc.from(src).to(dest));
+}
+
+/**
+ * @param {object} dirMap source dir -> dest dir mapping
+ * @param {object} gruntSrc
+ * @returns {Array.<object>} Grunt file config objects
+ */
+function toKarmaFolder(dirMap, gruntSrc) {
+  return map(dirMap, (dest, src) => gruntSrc.from(src).toKarma(dest));
+}

@@ -47,28 +47,30 @@ started.
 
 ```js
 var SRC_FILES = [
-      'Gruntfile.js',
       'src/rc/**/*.js',
-      '!src/rc/**/*.build.js',
-      '!src/rc/**/*.built.js',
       '!src/rc/**/*.min.js'
-    ];
+    ],
+    TEST_FILES = [
+      'srcTest/rc/**/*.js'
+    ],
+    ALL_FILES = SRC_FILES.concat(TEST_FILES);
 
 module.exports = function runGrunt(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     jsdoc:     { src: SRC_FILES },
-    eslint:    { src: SRC_FILES },
-    watch:     { src: SRC_FILES },
+    eslint:    { src: ALL_FILES },
+    watch:     { src: ALL_FILES },
     karma:     {},
+    babel:     {},
+    requirejs: {},
     niagara:   {
       station: {
         forceCopy: true,
         sourceStationFolder: './srcTest/stations/bajauxUnitTest'
       }
-    },
-    requirejs: {}
+    }
   });
 
   grunt.loadNpmTasks('grunt-niagara');
@@ -111,6 +113,50 @@ tests.
 **Minimal config:**
 
 No configuration necessary. An empty object will enable Karma tests.
+
+### `babel`
+
+As of `grunt-niagara` 2.0, Babel transpilation is provided out of the box. This
+will enable you to use ES6 syntax features in your code and have them transpiled
+down to ES5 for browser compatibility.
+
+If enabled, by default, all JS files in `src/rc` and `srcTest/rc` will be
+transpiled into the `build` directory for packaging into the final JAR. In
+conjunction, Karma will look in `build/karma` to run tests against the
+transpiled files.
+
+The transpilation can be configured using the `source` and `test` properties as
+described below.
+
+```
+// I might only want to transpile the files in the es6 directory rather than the
+// entirety of my src directory.
+babel: {
+  source: {
+    'es6/rc': 'build/src/rc'
+  },
+  test: {
+    'es6/spec': 'build/srcTest/rc/spec'
+  }
+}
+```
+
+**Minimal config:**
+
+No configuration necessary. An empty object will enable the default
+transpilation behavior.
+
+### `copy`
+
+You may want certain files to be copied directly into the JAR without any sort
+of linting or testing, such as third-party libraries you did not create. The
+default behavior is to simply copy over any non-JS files in `src/rc` and
+`srcTest/rc`, and any files at all in `src/ext` and `srcTest/ext`. Remember to
+include these `ext` directories in your Gradle file if needed.
+
+**Minimal config:**
+
+No configuration necessary - will always be available.
 
 ### `niagara.station`
 

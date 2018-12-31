@@ -116,6 +116,8 @@ module.exports = function (grunt) {
     defaultOptions = enableCodeCoverage(grunt, opts, defaultOptions);
   }
 
+  // if transpiling is enabled, change the Karma proxy to look for test modules
+  // inside the folder specifically transpiled for Karma.
   if (grunt.config('babel')) {
     defaultOptions.files = [
       'build/karma/srcTest/rc/browserMain.js',
