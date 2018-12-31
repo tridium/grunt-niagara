@@ -10,7 +10,7 @@ var extend = require('../lib/deepExtend'),
     pify = require('pify');
 
 function toRequireJsId(filePath) {
-  return 'nmodule/<%= pkg.name %>/rc/' + filePath.replace(/\.js$/, '');
+  return 'nmodule/<%= pkg.name %>/' + filePath.replace(/\.js$/, '');
 }
 
 let mdPromise;
@@ -51,10 +51,12 @@ module.exports = function (grunt) {
   let config = grunt.config.getRaw('requirejs') || {},
       masterOptions = config.options,
       moduleName = grunt.config.get('pkg.name').replace(/-(ux|rt|wb|se|doc)$/, ''),
+      transpilingEnabled = !!grunt.config('babel'),
+      rootDir = transpilingEnabled ? 'build/src' : 'src',
       addPath = {
         paths: {
-          ['nmodule/' + moduleName]: 'src',
-          ['nmodule/' + moduleName + 'Test']: 'srcTest'
+          ['nmodule/' + moduleName]: rootDir,
+          ['nmodule/' + moduleName + 'Test']: rootDir + 'srcTest'
         }
       };
   
@@ -71,7 +73,7 @@ module.exports = function (grunt) {
     if (build) {
       let options = {};
       if (buildName === 'src') {
-        options.include = grunt.file.expand({ cwd: './src/rc' }, [ '**/*.js' ])
+        options.include = grunt.file.expand({ cwd: rootDir }, [ '**/*.js', '!**/*.built.min.js' ])
           .map(toRequireJsId);
         options.out = 'build/src/rc/' + moduleName + '.built.min.js';
       }
