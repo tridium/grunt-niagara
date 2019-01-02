@@ -17,13 +17,13 @@ module.exports = function (grunt) {
 
   const { source, test } = getSourceDirs(grunt);
 
-  forOwn(source, destDir => {
+  forOwn(source, (destSrc, destDir) => {
     if (!destDir.startsWith('build/src/')) {
       throw new Error('source files must transpile into build/src/');
     }
   });
 
-  forOwn(test, destDir => {
+  forOwn(test, (destSrc, destDir) => {
     if (!destDir.startsWith('build/srcTest/')) {
       throw new Error('test files must transpile into build/srcTest/');
     }
@@ -81,7 +81,7 @@ module.exports.updateFromWatch = function (grunt, changedSources) {
   // map sources (which could be either source or test files) to their
   // configured destination folders.
   changedSources.forEach(changedSource => {
-    each(configuredMappings, (configuredDest, configuredSrc) => {
+    each(configuredMappings, (configuredSrc, configuredDest) => {
       if (changedSource.startsWith(configuredSrc)) {
         // this source file lives under a configured transpilation source
         // directory. transpile it to its corresponding path within the
@@ -103,8 +103,8 @@ module.exports.updateFromWatch = function (grunt, changedSources) {
 
 function getSourceDirs(grunt) {
   const {
-    source = { 'src/rc': 'build/src/rc' },
-    test = { 'srcTest/rc': 'build/srcTest/rc' }
+    source = { 'build/src/rc': 'src/rc' },
+    test = { 'build/srcTest/rc': 'srcTest/rc' }
   } = grunt.config.getRaw('babel') || {};
   return { source, test };
 }
@@ -115,7 +115,7 @@ function getSourceDirs(grunt) {
  * @returns {Array.<object>} Grunt file config objects
  */
 function toDistFolder(dirMap, gruntSrc) {
-  return map(dirMap, (dest, src) => gruntSrc.from(src).to(dest));
+  return map(dirMap, (src, dest) => gruntSrc.from(src).to(dest));
 }
 
 /**
@@ -124,5 +124,5 @@ function toDistFolder(dirMap, gruntSrc) {
  * @returns {Array.<object>} Grunt file config objects
  */
 function toKarmaFolder(dirMap, gruntSrc) {
-  return map(dirMap, (dest, src) => gruntSrc.from(src).toKarma(dest));
+  return map(dirMap, (src, dest) => gruntSrc.from(src).toKarma(dest));
 }

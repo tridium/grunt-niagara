@@ -123,7 +123,8 @@ down to ES5 for browser compatibility.
 If enabled, by default, all JS files in `src/rc` and `srcTest/rc` will be
 transpiled into the `build` directory for packaging into the final JAR. In
 conjunction, Karma will look in `build/karma` to run tests against the
-transpiled files.
+transpiled files. (If using `grunt-init-niagara`, check your paths config in
+`browserMain.js` to ensure RequireJS is looking in `build/karma`.)
 
 The transpilation can be configured using the `source` and `test` properties as
 described below.
@@ -133,10 +134,10 @@ described below.
 // entirety of my src directory.
 babel: {
   source: {
-    'es6/rc': 'build/src/rc'
+    'build/src/rc': 'es6/rc'
   },
   test: {
-    'es6/spec': 'build/srcTest/rc/spec'
+    'build/srcTest/rc/spec': 'es6/spec'
   }
 }
 ```

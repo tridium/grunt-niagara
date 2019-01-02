@@ -9,8 +9,8 @@ var extend = require('../lib/deepExtend'),
     defaultOptions = require('./defaults/requirejsDefaults'),
     pify = require('pify');
 
-function toRequireJsId(filePath) {
-  return 'nmodule/<%= pkg.name %>/' + filePath.replace(/\.js$/, '');
+function toNmoduleRequireJsId(filePath, moduleName) {
+  return `nmodule/${ moduleName }/${ filePath.replace(/\.js$/, '') }`;
 }
 
 let mdPromise;
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
       addPath = {
         paths: {
           ['nmodule/' + moduleName]: rootDir,
-          ['nmodule/' + moduleName + 'Test']: rootDir + 'srcTest'
+          ['nmodule/' + moduleName + 'Test']: rootDir + 'Test'
         }
       };
   
@@ -71,13 +71,16 @@ module.exports = function (grunt) {
     
     let build = config[buildName];
     if (build) {
-      let options = {};
+      let options = extend({}, addPath, defaultOptions, masterOptions, build.options);
       if (buildName === 'src') {
-        options.include = grunt.file.expand({ cwd: rootDir }, [ '**/*.js', '!**/*.built.min.js' ])
-          .map(toRequireJsId);
-        options.out = 'build/src/rc/' + moduleName + '.built.min.js';
+        let toRequireJsId = options.toRequireJsId || toNmoduleRequireJsId;
+
+        options.include = options.include ||
+          grunt.file.expand({ cwd: rootDir }, [ '**/*.js', '!**/*.built.min.js' ])
+            .map(filePath => toRequireJsId(filePath, moduleName));
+        options.out = options.out || 'build/src/rc/' + moduleName + '.built.min.js';
       }
-      options = extend(true, options, addPath, defaultOptions, masterOptions, build.options);
+
       applyDisablePlugins(options);
       
       return toPaths(options.moduleResources)

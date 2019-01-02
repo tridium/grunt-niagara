@@ -186,7 +186,7 @@
 
     "promise/no-return-wrap": "error",
     "promise/param-names": "error",
-    "promise/catch-or-return": "error",
+    "promise/catch-or-return": ["error", { "allowThen": true, "terminationMethod": [ "catch", "finally" ] } ],
     "promise/no-native": "off",
     "promise/no-nesting": "off",
     "promise/no-promise-in-callback": "warn",

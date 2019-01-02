@@ -18,8 +18,8 @@ module.exports = function (grunt) {
   const babelConfig = grunt.config.getRaw('babel') || {};
 
   const {
-    source = { 'src/rc': 'build/src/rc' },
-    test = { 'srcTest/rc': 'build/srcTest/rc' }
+    source = { 'build/src/rc': 'src/rc' },
+    test = { 'build/srcTest/rc': 'srcTest/rc' }
   } = babelConfig;
 
   return extend({
@@ -43,19 +43,19 @@ module.exports = function (grunt) {
 };
 
 /**
- * @param {object} dirMap source dir -> dest dir mapping
+ * @param {object} dirMap dest dir -> source dir mapping
  * @param {object} gruntSrc
  * @returns {Array.<object>} Grunt file config objects
  */
 function toDistFolder(dirMap, gruntSrc) {
-  return map(dirMap, (dest, src) => gruntSrc.from(src).to(dest));
+  return map(dirMap, (src, dest) => gruntSrc.from(src).to(dest));
 }
 
 /**
- * @param {object} dirMap source dir -> dest dir mapping
+ * @param {object} dirMap dest dir -> source dir mapping
  * @param {object} gruntSrc
  * @returns {Array.<object>} Grunt file config objects
  */
 function toKarmaFolder(dirMap, gruntSrc) {
-  return map(dirMap, (dest, src) => gruntSrc.from(src).toKarma(dest));
+  return map(dirMap, (src, dest) => gruntSrc.from(src).toKarma(dest));
 }
