@@ -45,3 +45,7 @@ module.exports = function (grunt) {
 
   return extend(true, newConfig, oldConfig);
 };
+
+module.exports.updateFromWatch = function (grunt, changedSources) {
+  grunt.config('eslint.src', changedSources);
+};

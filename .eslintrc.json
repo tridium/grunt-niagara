@@ -6,8 +6,7 @@
   "env": {
     "es6": true,
     "jasmine": true,
-    "amd": true,
-    "browser": true
+    "amd": true
   },
 
   "plugins": [
@@ -16,9 +15,8 @@
   ],
 
   "globals": {
-    "document": false,
-    "navigator": false,
-    "window": false
+    "iit": false,
+    "ddescribe": false
   },
 
   "rules": {

@@ -19,8 +19,12 @@ module.exports = function (grunt) {
   }
 
   loadTasksRelative(grunt, 'grunt-contrib-watch');
-  grunt.config('_watch', watchConfig(grunt));
-  grunt.renameTask('watch', '_watch');
+
+  // rename to "watchForChange" b/c we hijack the default watch task list,
+  // and the default watch task always prints last even though it becomes a
+  // no-op. just reads nicer to the user
+  grunt.config('watchForChange', watchConfig(grunt));
+  grunt.renameTask('watch', 'watchForChange');
 
   var tasks = [];
 
@@ -29,11 +33,7 @@ module.exports = function (grunt) {
     tasks.push('karma-connect');
   }
 
-  if (grunt.config('babel')) {
-    tasks = [ 'babel:watch', 'copy' ].concat(tasks);
-  }
-
-  tasks.push('_watch');
+  tasks.push('watchForChange');
 
   grunt.registerTask('watch', tasks);
 };

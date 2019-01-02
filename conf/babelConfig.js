@@ -2,9 +2,9 @@
 
 'use strict';
 
-const { allJsFiles } = require('../lib/gruntSources');
-const { flatten, forOwn, map } = require('lodash');
-const extend = require('../lib/deepExtend');
+const { allJsFiles, toKarmaDir } = require('../lib/gruntSources');
+const { each, extend, flatten, forOwn, map } = require('lodash');
+const deepExtend = require('../lib/deepExtend');
 
 /**
  * @param {IGrunt} grunt
@@ -15,10 +15,7 @@ module.exports = function (grunt) {
 
   grunt.option('coverage-preprocessors', false);
 
-  const {
-    source = { 'src/rc': 'build/src/rc' },
-    test = { 'srcTest/rc': 'build/srcTest/rc' }
-  } = config;
+  const { source, test } = getSourceDirs(grunt);
 
   forOwn(source, destDir => {
     if (!destDir.startsWith('build/src/')) {
@@ -67,8 +64,50 @@ module.exports = function (grunt) {
     }
   };
 
-  return extend({}, defaults, config);
+  return deepExtend({}, defaults, config);
 };
+
+/**
+ * Configure Babel to only transpile the specified files on the next run.
+ *
+ * @param {IGrunt} grunt
+ * @param {Array.<string>} changedSources
+ */
+module.exports.updateFromWatch = function (grunt, changedSources) {
+  const { source, test } = getSourceDirs(grunt),
+    configuredMappings = extend({}, source, test),
+    sourceMapping = {};
+
+  // map sources (which could be either source or test files) to their
+  // configured destination folders.
+  changedSources.forEach(changedSource => {
+    each(configuredMappings, (configuredDest, configuredSrc) => {
+      if (changedSource.startsWith(configuredSrc)) {
+        // this source file lives under a configured transpilation source
+        // directory. transpile it to its corresponding path within the
+        // configured destination directory.
+        const changedDest =
+          toKarmaDir(changedSource.replace(configuredSrc, configuredDest));
+
+        sourceMapping[changedDest] = changedSource;
+      }
+    });
+  });
+
+  grunt.log.debug('changed source files: ' + JSON.stringify(changedSources, null, 2));
+  grunt.log.debug('configured Babel mapping: ' + JSON.stringify(configuredMappings, null, 2));
+  grunt.log.debug('new files to transpile: ' + JSON.stringify(sourceMapping, null, 2));
+
+  grunt.config('babel.watch.files', sourceMapping);
+};
+
+function getSourceDirs(grunt) {
+  const {
+    source = { 'src/rc': 'build/src/rc' },
+    test = { 'srcTest/rc': 'build/srcTest/rc' }
+  } = grunt.config.getRaw('babel') || {};
+  return { source, test };
+}
 
 /**
  * @param {object} dirMap source dir -> dest dir mapping

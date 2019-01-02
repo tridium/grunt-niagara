@@ -238,6 +238,18 @@ watch: {
 }
 ```
 
+As of `grunt-niagara` 2.0, the `watch` task will be configured to run linting
+and transpilation only on those files which were actually changed, which will
+help speed up development. To disable this behavior so *all* files are linted
+and transpiled on every change, set the `onDemand` option to `false`:
+
+```
+watch: {
+  options: { onDemand: false },
+  src: SRC_FILES
+}
+```
+
 **Minimal config:**
 
 `src`: array of file definitions that will trigger a test run when saved.
