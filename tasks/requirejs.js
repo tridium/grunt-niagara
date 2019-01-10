@@ -21,21 +21,31 @@ module.exports = function (grunt) {
   if (!grunt.config('requirejs')) {
     return;
   }
+
+  const transpilingEnabled = !!grunt.config('babel');
   
   loadTasksRelative(grunt, 'grunt-contrib-requirejs');
   
   grunt.renameTask('requirejs', 'requirejs-sync');
 
-  grunt.registerTask('requirejs', 'Build a RequireJS project.', function () {
+  grunt.registerTask('requirejs', 'Build a RequireJS project.', function (buildName = 'src') {
     let done = this.async();
     return requirejsConfig(grunt)
       .then(config => {
         grunt.config.merge({
           "requirejs-sync": config
         });
+
         grunt.log.debug('requirejs configuration:');
         grunt.log.debug(JSON.stringify(grunt.config.get('requirejs-sync'), null, 2));
+
         grunt.task.run('requirejs-sync');
+
+        if (transpilingEnabled) {
+          grunt.task.run('babel:builtfile_' + buildName);
+          grunt.task.run('uglify:builtfile_' + buildName);
+        }
+        
         done();
       })
       .catch(err => { console.error(err); return done(false); });
