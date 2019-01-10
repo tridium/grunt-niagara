@@ -53,7 +53,6 @@ module.exports = function (grunt) {
       masterOptions = config.options,
       moduleName = grunt.config.get('pkg.name').replace(/-(ux|rt|wb|se|doc)$/, ''),
       transpilingEnabled = !!grunt.config('babel'),
-      rootDir = 'src',
       addPath = {
         paths: {
           ['nmodule/' + moduleName]: 'src',
@@ -85,7 +84,7 @@ module.exports = function (grunt) {
         const toRequireJsId = options.toRequireJsId || toNmoduleRequireJsId;
 
         options.include = options.include ||
-          grunt.file.expand({ cwd: rootDir }, [ '**/*.js', '!**/*.built.min.js' ])
+          grunt.file.expand({ cwd: 'src' }, [ '**/*.js', '!**/*.built.min.js' ])
             .map(filePath => toRequireJsId(filePath, moduleName));
       }
 
