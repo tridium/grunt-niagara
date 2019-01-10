@@ -31,7 +31,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('runWatchTasks', function () {
     if (onDemand) {
-      updateFromChangedSources(grunt, Object.keys(changedFiles));
+      updateFromChangedSources(grunt,
+        Object.keys(changedFiles).filter(src => src.endsWith('.js')));
       changedFiles = {};
     }
     grunt.task.run(getTasksToRun(grunt, oldConfig.tasks));
