@@ -86,10 +86,10 @@ module.exports.updateFromWatch = function (grunt, changedSources) {
         // this source file lives under a configured transpilation source
         // directory. transpile it to its corresponding path within the
         // configured destination directory.
-        const changedDest =
-          toKarmaDir(changedSource.replace(configuredSrc, configuredDest));
 
-        sourceMapping[changedDest] = changedSource;
+        const distFolder = changedSource.replace(configuredSrc, configuredDest);
+        sourceMapping[distFolder] = changedSource;
+        sourceMapping[toKarmaDir(distFolder)] = changedSource;
       }
     });
   });
