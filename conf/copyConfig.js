@@ -6,8 +6,8 @@ const extend = require('../lib/deepExtend');
 const { flatten, map } = require('lodash');
 const { allConfigFiles, allFiles } = require('../lib/gruntSources');
 
-const srcExt = { 'src/ext': 'build/src/ext' };
-const srcTestExt = { 'srcTest/ext': 'build/srcTest/ext' };
+const srcExt = { 'build/src/ext': 'src/ext' };
+const srcTestExt = { 'build/srcTest/ext': 'srcTest/ext' };
 
 /**
  * @param {IGrunt} grunt
