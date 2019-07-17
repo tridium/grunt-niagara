@@ -40,7 +40,7 @@ module.exports = {
 
   /** use PhantomJS */
   browsers: [
-    'PhantomJS'
+    'ChromeHeadless'
   ],
 
   /** use onscreen reporter and JUnit export */
