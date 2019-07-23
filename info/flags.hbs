@@ -39,7 +39,7 @@ between different Niagara modules.
     must run at once)
 --browsers (default: {{ browsers }})
     a comma-separated list of browsers for Karma to start up
-    (available browsers: Chrome, ChromeCanary, Safari, Firefox,
+    (available browsers: Chrome, ChromeHeadless, ChromeCanary, Safari, Firefox,
                          Opera, PhantomJS, IE)
 --chrome-flags
     if using Chrome, add an optional, comma-separated list of flags to pass to
@@ -63,6 +63,12 @@ between different Niagara modules.
 --testNever
     this is a regex string. Specs whose description matches this string will
     never be executed by Karma.
+--options (default: {{ options }})
+    this is a JSON file that is used to override the default grunt
+    command-line options.  See README.md for more details.
+--config (default: {{ config }})
+    this is the JSON file that is used to override the grunt config.
+    See README.md for more details.
 
 (note that in order for testOnly and testNever to work, you must require
  the AMD modules 'niagara-test-server/karmaUtils' and

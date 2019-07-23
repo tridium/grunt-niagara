@@ -5,6 +5,7 @@
 'use strict';
 
 var extend = require('../lib/deepExtend'),
+    loadTasksRelative = require('../lib/loadTasksRelative'),
     moduledev = require('niagara-moduledev'),
     defaultOptions = require('./defaults/requirejsDefaults'),
     pify = require('pify');
@@ -52,16 +53,22 @@ module.exports = function (grunt) {
       masterOptions = config.options,
       moduleName = grunt.config.get('pkg.name').replace(/-(ux|rt|wb|se|doc)$/, ''),
       transpilingEnabled = !!grunt.config('babel'),
-      rootDir = transpilingEnabled ? 'build/src' : 'src',
       addPath = {
         paths: {
-          ['nmodule/' + moduleName]: rootDir,
-          ['nmodule/' + moduleName + 'Test']: rootDir + 'Test'
+          ['nmodule/' + moduleName]: 'src',
+          ['nmodule/' + moduleName + 'Test']: 'srcTest'
         }
       };
   
   if (typeof config.src === 'undefined') {
     config.src = {};
+  }
+
+  if (transpilingEnabled) {
+    // if we're transpiling, disable r.js minification (which does not support
+    // es6) - we'll minify the builtfile ourselves
+    grunt.config('requirejs.options.optimize', 'none');
+    loadTasksRelative(grunt, 'grunt-contrib-uglify');
   }
   
   return Promise.all(Object.keys(config).map(buildName => {
@@ -71,14 +78,29 @@ module.exports = function (grunt) {
     
     let build = config[buildName];
     if (build) {
-      let options = extend({}, addPath, defaultOptions, masterOptions, build.options);
+      const options = extend({}, addPath, defaultOptions, masterOptions, build.options);
+
       if (buildName === 'src') {
-        let toRequireJsId = options.toRequireJsId || toNmoduleRequireJsId;
+        const toRequireJsId = options.toRequireJsId || toNmoduleRequireJsId;
 
         options.include = options.include ||
-          grunt.file.expand({ cwd: rootDir }, [ '**/*.js', '!**/*.built.min.js' ])
+          grunt.file.expand({ cwd: 'src' }, [ '**/*.js', '!**/*.built.min.js' ])
             .map(filePath => toRequireJsId(filePath, moduleName));
-        options.out = options.out || 'build/src/rc/' + moduleName + '.built.min.js';
+      }
+
+      const out = options.out || 'build/src/rc/' + moduleName + '.built.min.js';
+      options.out = out;
+
+      // if we're transpiling, transpile the builtfile and then minify.
+      // this avoids having all the babel helper functions get duplicated
+      // many times inside the builtfile.
+      if (transpilingEnabled) {
+        grunt.config('babel.builtfile_' + buildName, {
+          files: [ { src: out, dest: out } ]
+        });
+        grunt.config('uglify.builtfile_' + buildName, {
+          files: [ { src: out, dest: out } ]
+        });
       }
 
       applyDisablePlugins(options);
