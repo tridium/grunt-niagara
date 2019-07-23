@@ -1,7 +1,8 @@
 module.exports = {
   "moduleResources": {
     "Handlebars": [
-      "nmodule/js/rc/handlebars/handlebars-v4.0.6",
+      "nmodule/js/rc/handlebars/handlebars-v4.1.2",
+      "nmodule/js/rc/handlebars/handlebars-v4.0.6", //4.8 and previous
       "nmodule/js/rc/handlebars/handlebars-v2.0.0" //4.2 and previous
     ],
     "hbs": "nmodule/js/rc/require-handlebars-plugin/hbs",
