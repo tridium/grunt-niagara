@@ -5,7 +5,8 @@
 'use strict';
 
 var watchConfig = require('../conf/watchConfig'),
-    loadTasksRelative = require('../lib/loadTasksRelative');
+    loadTasksRelative = require('../lib/loadTasksRelative'),
+    parseOptions = require('../lib/parseOptions');
 
 /**
  * The `watch` task spins up a Niagara station (if necessary) and a Karma
@@ -27,6 +28,15 @@ module.exports = function (grunt) {
   grunt.renameTask('watch', 'watchForChange');
 
   var tasks = [];
+  var opts = parseOptions(grunt);
+
+  var newChangesOnly = String(opts['quick-start']) === 'true';
+  if (!newChangesOnly) {
+    if (grunt.config('babel')) {
+      tasks.push('babel:watch');
+      tasks.push('copy');
+    }
+  }
 
   if (grunt.config('karma')) {
     tasks.push('karma:watch');

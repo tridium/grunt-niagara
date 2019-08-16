@@ -251,15 +251,21 @@ watch: {
 }
 ```
 
+By default, Babel will perform one full run when starting up watch mode. This
+will ensure that all files are correctly transpiled (otherwise files that were
+changed while watch was not running, such as when pulling from source control,
+would be missed). To skip this initial Babel run, pass the option
+`--quick-start=true`.
+
 **Minimal config:**
 
 `src`: array of file definitions that will trigger a test run when saved.
 
 ## Global Options
 
-If for some reason you want to be able to override command-line options, you can
-do so using an options configuration file by using the `options` command-line
-argument.
+If you would like to customize the default values for command-line options, you
+can do so using an options configuration file by using the `options`
+command-line argument.
 
 ```
 grunt <task> --options="optionsFile.json"
