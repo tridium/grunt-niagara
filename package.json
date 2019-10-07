@@ -1,7 +1,7 @@
 {
   "name": "grunt-niagara",
   "description": "Common Grunt tasks for Niagara modules",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": {
     "name": "Logan Byam",
     "email": "lbyam@tridium.com"
