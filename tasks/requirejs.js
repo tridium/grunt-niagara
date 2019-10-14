@@ -31,7 +31,7 @@ module.exports = function (grunt) {
   grunt.registerTask('requirejs', 'Build a RequireJS project.', function (buildName = 'src') {
     let done = this.async();
     return requirejsConfig(grunt)
-      .then(config => {
+      .then((config) => {
         grunt.config.merge({
           "requirejs-sync": config
         });
@@ -48,6 +48,6 @@ module.exports = function (grunt) {
         
         done();
       })
-      .catch(err => { console.error(err); return done(false); });
+      .catch((err) => { console.error(err); return done(false); });
   });
 };

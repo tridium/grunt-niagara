@@ -34,7 +34,7 @@ module.exports = {
    * all contents of populated src directories
    */
   files: [ 'srcTest/rc/browserMain.js' ]
-    .concat(populatedSrcDirs.map(dir => ({
+    .concat(populatedSrcDirs.map((dir) => ({
       pattern: dir + '/**/*', included: false
     }))),
 

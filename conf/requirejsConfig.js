@@ -20,11 +20,11 @@ function getModuledev() {
 }
 
 function toPaths(moduleResources) {
-  return getModuledev().then(md => pify(md).getRequireJsPaths(moduleResources));
+  return getModuledev().then((md) => pify(md).getRequireJsPaths(moduleResources));
 }
 
 function applyDisablePlugins(options) {
-  (options.disablePlugins || []).forEach(plugin => {
+  (options.disablePlugins || []).forEach((plugin) => {
     let rawText = options.rawText || (options.rawText = {}),
         excludeShallow = options.excludeShallow || (options.excludeShallow = []);
     
@@ -71,7 +71,7 @@ module.exports = function (grunt) {
     loadTasksRelative(grunt, 'grunt-contrib-uglify');
   }
   
-  return Promise.all(Object.keys(config).map(buildName => {
+  return Promise.all(Object.keys(config).map((buildName) => {
     if (buildName === 'options') {
       return; //not really a build
     }
@@ -85,7 +85,7 @@ module.exports = function (grunt) {
 
         options.include = options.include ||
           grunt.file.expand({ cwd: 'src' }, [ '**/*.js', '!**/*.built.min.js' ])
-            .map(filePath => toRequireJsId(filePath, moduleName));
+            .map((filePath) => toRequireJsId(filePath, moduleName));
       }
 
       const out = options.out || 'build/src/rc/' + moduleName + '.built.min.js';
