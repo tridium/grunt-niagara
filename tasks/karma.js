@@ -24,9 +24,9 @@ module.exports = function (grunt) {
 
   grunt.config('karma', karmaConfig(grunt));
 
-  grunt.registerTask('karma', 'Run tests in Karma', function (type) {
+  grunt.registerTask('runKarma', 'Run tests in Karma', function (type) {
     var opts = parseOptions(grunt),
-        done = this.async();
+      done = this.async();
 
     runKarma(grunt, type, this.flags.run, function (err) {
       if (err) {
@@ -38,4 +38,12 @@ module.exports = function (grunt) {
       return done(!err);
     });
   });
+
+  let tasks = [ 'runKarma' ];
+
+  if (grunt.config('babel')) {
+    tasks = [ 'babel:coverage', 'babel:spec', 'copy:karma' ].concat(tasks);
+  }
+
+  grunt.registerTask('karma', tasks);
 };
