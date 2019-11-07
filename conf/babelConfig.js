@@ -80,7 +80,7 @@ module.exports.updateFromWatch = function (grunt, changedSources) {
 
   // map sources (which could be either source or test files) to their
   // configured destination folders.
-  changedSources.forEach(changedSource => {
+  changedSources.forEach((changedSource) => {
     each(configuredMappings, (configuredSrc, configuredDest) => {
       if (changedSource.startsWith(configuredSrc)) {
         // this source file lives under a configured transpilation source

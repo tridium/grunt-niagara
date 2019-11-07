@@ -87,7 +87,7 @@ module.exports = function (grunt) {
     chromeFlags = chromeFlags.split(',');
 
     defaultOptions = extend(defaultOptions, {
-      browsers: defaultOptions.browsers.map(b => b.replace('Chrome', 'ChromeWithFlags')),
+      browsers: defaultOptions.browsers.map((b) => b.replace('Chrome', 'ChromeWithFlags')),
       customLaunchers: {
         ChromeWithFlags: { base: 'Chrome', flags: chromeFlags },
         ChromeWithFlagsHeadless: { base: 'ChromeHeadless', flags: chromeFlags }

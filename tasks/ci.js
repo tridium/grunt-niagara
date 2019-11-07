@@ -19,9 +19,5 @@ module.exports = function (grunt) {
     tasks.push('karma:ci');
   }
 
-  if (grunt.config('babel')) {
-    tasks = [ 'babel:coverage', 'babel:spec', 'copy:karma' ].concat(tasks);
-  }
-
   grunt.registerTask('ci', tasks);
 };
