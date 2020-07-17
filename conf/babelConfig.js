@@ -31,7 +31,8 @@ module.exports = function (grunt) {
 
   const defaults = {
     options: {
-      presets: [ '@babel/preset-env' ]
+      presets: [ '@babel/preset-env' ],
+      sourceType: 'unambiguous'
     },
 
     // for distribution, simply transpile all JS files into the build directory
