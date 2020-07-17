@@ -31,7 +31,7 @@ module.exports = function (grunt) {
 
   const defaults = {
     options: {
-      presets: [ 'es2015-without-strict' ]
+      presets: [ '@babel/preset-env' ]
     },
 
     // for distribution, simply transpile all JS files into the build directory
