@@ -17,6 +17,6 @@ module.exports = function (grunt) {
     return;
   }
 
-  loadTasksRelative(grunt, 'gruntify-eslint');
+  loadTasksRelative(grunt, 'grunt-eslint');
   grunt.config('eslint', eslintConfig(grunt));
 };
