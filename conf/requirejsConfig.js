@@ -53,12 +53,7 @@ module.exports = function (grunt) {
       masterOptions = config.options,
       moduleName = grunt.config.get('pkg.name').replace(/-(ux|rt|wb|se|doc)$/, ''),
       transpilingEnabled = !!grunt.config('babel'),
-      addPath = {
-        paths: {
-          ['nmodule/' + moduleName]: 'src',
-          ['nmodule/' + moduleName + 'Test']: 'srcTest'
-        }
-      };
+      addPath;
   
   if (typeof config.src === 'undefined') {
     config.src = {};
@@ -69,6 +64,19 @@ module.exports = function (grunt) {
     // es6) - we'll minify the builtfile ourselves
     grunt.config('requirejs.options.optimize', 'none');
     loadTasksRelative(grunt, 'grunt-contrib-uglify');
+    addPath = {
+      paths: {
+        ['nmodule/' + moduleName]: 'build/es/src',
+        ['nmodule/' + moduleName + 'Test']: 'build/es/srcTest',
+      }
+    }
+  } else {
+    addPath = {
+      paths: {
+        ['nmodule/' + moduleName]: 'src',
+        ['nmodule/' + moduleName + 'Test']: 'srcTest'
+      }
+    };
   }
   
   return Promise.all(Object.keys(config).map((buildName) => {

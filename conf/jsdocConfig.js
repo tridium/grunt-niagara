@@ -30,7 +30,7 @@ module.exports = function (grunt) {
           lenient: true,
           recurse: true,
           template: defaultTemplatePath,
-          destination: 'src/jsdoc'
+          destination: 'build/src/jsdoc'
         },
         dist: {
           src: src,
