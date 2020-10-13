@@ -31,6 +31,12 @@ module.exports = function (grunt) {
         toDistFolder(srcTestExt, allFiles())
       ])
     },
+    es: {
+      files: flatten([
+        toESFolder(source, allConfigFiles()),
+        toESFolder(test, allConfigFiles())
+      ])
+    },
     karma: {
       files: flatten([
         toKarmaFolder(source, allConfigFiles()),
@@ -58,4 +64,13 @@ function toDistFolder(dirMap, gruntSrc) {
  */
 function toKarmaFolder(dirMap, gruntSrc) {
   return map(dirMap, (src, dest) => gruntSrc.from(src).toKarma(dest));
+}
+
+/**
+ * @param {object} dirMap dest dir -> source dir mapping
+ * @param {object} gruntSrc
+ * @returns {Array.<object>} Grunt file config objects
+ */
+function toESFolder(dirMap, gruntSrc) {
+  return map(dirMap, (src, dest) => gruntSrc.from(src).toES(dest));
 }
