@@ -62,6 +62,15 @@ module.exports = function (grunt) {
     // for CI, transpile specs *without* coverage reports.
     spec: {
       files: toKarmaFolder(test, allJsFiles())
+    },
+
+    // for rjs build, we *only* want to compile out non-ES stuff like JSX.
+    es: {
+      options: { presets: [] /* disable preset-env */ },
+      files: flatten([
+        toEsFolder(source, allJsFiles()),
+        toEsFolder(test, allJsFiles())
+      ])
     }
   };
 
@@ -126,4 +135,13 @@ function toDistFolder(dirMap, gruntSrc) {
  */
 function toKarmaFolder(dirMap, gruntSrc) {
   return map(dirMap, (src, dest) => gruntSrc.from(src).toKarma(dest));
+}
+
+/**
+ * @param {object} dirMap source dir -> dest dir mapping
+ * @param {object} gruntSrc
+ * @returns {Array.<object>} Grunt file config objects
+ */
+function toEsFolder(dirMap, gruntSrc) {
+  return map(dirMap, (src, dest) => gruntSrc.from(src).toES(dest));
 }

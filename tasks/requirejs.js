@@ -39,11 +39,24 @@ module.exports = function (grunt) {
         grunt.log.debug('requirejs configuration:');
         grunt.log.debug(JSON.stringify(grunt.config.get('requirejs-sync'), null, 2));
 
-        grunt.task.run('requirejs-sync');
 
         if (transpilingEnabled) {
+          // if we are combining requirejs with non-ES stuff like jsx, do the following:
+
+          // 1. compile out all the non-ES stuff so we're left with pure ES6/ES5.
+          // this task is declared in babelConfig.js.
+          grunt.task.run('babel:es');
+
+          // 2. r.js that into the builtfile. requireJsConfig.js will point r.js
+          // at the es folder when transpiling is enabled.
+          grunt.task.run('requirejs-sync');
+
+          // 3. transpile and minify the builtfile from ES6->ES5.
+          // these tasks are declared in babel.js.
           grunt.task.run('babel:builtfile_' + buildName);
           grunt.task.run('uglify:builtfile_' + buildName);
+        } else {
+          grunt.task.run('requirejs-sync');
         }
         
         done();
