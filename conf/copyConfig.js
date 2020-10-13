@@ -34,7 +34,9 @@ module.exports = function (grunt) {
     es: {
       files: flatten([
         toESFolder(source, allConfigFiles()),
-        toESFolder(test, allConfigFiles())
+        toESFolder(test, allConfigFiles()),
+        toESFolder(srcExt, allFiles()),
+        toESFolder(srcTestExt, allFiles())
       ])
     },
     karma: {

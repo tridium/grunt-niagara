@@ -67,9 +67,9 @@ module.exports = function (grunt) {
     addPath = {
       paths: {
         ['nmodule/' + moduleName]: 'build/es/src',
-        ['nmodule/' + moduleName + 'Test']: 'build/es/srcTest',
+        ['nmodule/' + moduleName + 'Test']: 'build/es/srcTest'
       }
-    }
+    };
   } else {
     addPath = {
       paths: {
