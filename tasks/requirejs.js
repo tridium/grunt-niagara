@@ -46,6 +46,7 @@ module.exports = function (grunt) {
           // 1. compile out all the non-ES stuff so we're left with pure ES6/ES5.
           // this task is declared in babelConfig.js.
           grunt.task.run('babel:es');
+          grunt.task.run('copy:es');
 
           // 2. r.js that into the builtfile. requireJsConfig.js will point r.js
           // at the es folder when transpiling is enabled.
