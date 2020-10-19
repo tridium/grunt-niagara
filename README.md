@@ -204,3 +204,56 @@ watch: {
 **Minimal config:**
 
 `src`: array of file definitions that will trigger a test run when saved.
+
+## Global Options
+
+If for some reason you want to be able to override command-line options, you can
+do so using an options configuration file by using the `options` command-line
+argument.
+
+```
+grunt <task> --options="optionsFile.json"
+```
+
+The default value is `<niagara_user_home>/etc/my-grunt-options.json`, so you can
+place a JSON file in this location and it will always be used. In order to
+override something such as `station-log-level`, you could use a `JSON` file like
+this:
+
+```JSON
+{
+  "station-log-level": "INFO"
+}
+```
+
+## Global Config
+
+As with options, you can also override Grunt configuration globally using the
+`config` command-line argument.
+
+```
+grunt <task> --config="configFile.json"
+```
+
+The default value is `<niagara_user_home>/etc/my-grunt-config.json`. The JSON
+will be merged in with the Grunt config before running any tasks, so you can add
+any configuration you like. In order to override something such as adding a
+custom Karma launcher, you would use a `JSON` file like this:
+
+```JSON
+{
+  "karma": {
+    "options": {
+      "customLaunchers": {
+        "MyCustomLauncher": {
+          "base": "ChromeHeadless",
+          "displayName": "My Custom Launcher"
+        }
+      }
+    },
+    "ci": {
+      "browsers": [ "MyCustomLauncher" ]
+    }
+  }
+}
+```

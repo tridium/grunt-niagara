@@ -1,3 +1,10 @@
+<a name="1.1.0"></a>
+## 1.1.0 (2019/07/17)
+
+* Add ability to override options and configuration using the --options and
+--config command-line flags. By default, these look for `my-grunt-options.json`
+and `my-grunt-config.json` in `niagara_user_home/bin`.
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2018/12/27)
 
