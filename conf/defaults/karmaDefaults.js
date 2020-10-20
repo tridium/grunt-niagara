@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 'use strict';
 
 const fs = require('fs');
@@ -32,13 +34,13 @@ module.exports = {
    * all contents of populated src directories
    */
   files: [ 'srcTest/rc/browserMain.js' ]
-    .concat(populatedSrcDirs.map(dir => ({
+    .concat(populatedSrcDirs.map((dir) => ({
       pattern: dir + '/**/*', included: false
     }))),
 
   /** use PhantomJS */
   browsers: [
-    'PhantomJS'
+    'ChromeHeadless'
   ],
 
   /** use onscreen reporter and JUnit export */
@@ -51,5 +53,8 @@ module.exports = {
   singleRun: true,
   
   /** grunt-niagara will configure to do its own run **/
-  autoWatch: false
+  autoWatch: false,
+
+  /** allow some extra time if browser gets CPU starved */
+  browserNoActivityTimeout: 60000
 };

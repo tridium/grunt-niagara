@@ -1,20 +1,26 @@
+/* eslint-env node */
+
 /** @module */
 
 'use strict';
 
 /**
- * The `ci` task from JSHint and Karma, with code coverage reports generated.
+ * The `ci` task runs ESLint and Karma, with code coverage reports generated.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   var tasks = [];
-  if (grunt.config('jshint')) {
-    tasks.push('jshint:ci');
+  if (grunt.config('eslint')) {
+    tasks.push('eslint:ci');
   }
 
   if (grunt.config('karma')) {
     tasks.push('karma:ci');
+  }
+
+  if (grunt.config('babel')) {
+    tasks = [ 'babel:coverage', 'babel:spec', 'copy:karma' ].concat(tasks);
   }
 
   grunt.registerTask('ci', tasks);

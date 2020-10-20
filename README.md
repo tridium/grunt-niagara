@@ -47,29 +47,30 @@ started.
 
 ```js
 var SRC_FILES = [
-      'Gruntfile.js',
       'src/rc/**/*.js',
-      '!src/rc/**/*.build.js',
-      '!src/rc/**/*.built.js',
       '!src/rc/**/*.min.js'
-    ];
+    ],
+    TEST_FILES = [
+      'srcTest/rc/**/*.js'
+    ],
+    ALL_FILES = SRC_FILES.concat(TEST_FILES);
 
 module.exports = function runGrunt(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     jsdoc:     { src: SRC_FILES },
-    jshint:    { src: SRC_FILES },
-    plato:     { src: SRC_FILES },
-    watch:     { src: SRC_FILES },
+    eslint:    { src: ALL_FILES },
+    watch:     { src: ALL_FILES },
     karma:     {},
+    babel:     {},
+    requirejs: {},
     niagara:   {
       station: {
         forceCopy: true,
         sourceStationFolder: './srcTest/stations/bajauxUnitTest'
       }
-    },
-    requirejs: {}
+    }
   });
 
   grunt.loadNpmTasks('grunt-niagara');
@@ -86,17 +87,18 @@ Generates JSDocs and places them in `jsdoc-dir`.
 
 `src`: array of file definitions to process for JSDoc
 
-### `jshint`
+### `eslint`
 
-Performs JSHint analysis and fails the build if any errors are found. Error
-report will be placed in `jshint-reports-dir`.
+Performs ESLint analysis and fails the build if any errors are found. Error
+report will be placed in `eslint-reports-dir`.
 
-Tip: If running JSHint direct from the command line, type `jshint:src` to get
-output formatted for display.
+Tip: If running ESLint direct from the command line, type `eslint:src` to get
+output formatted for display. Type `eslint:fix` to automatically fix all
+fixable errors.
 
 **Minimal config:**
 
-`src`: array of file definitions to analyze with JSHint.
+`src`: array of file definitions to analyze with ESLint.
 
 ### `karma`
 
@@ -112,19 +114,55 @@ tests.
 
 No configuration necessary. An empty object will enable Karma tests.
 
+### `babel`
+
+As of `grunt-niagara` 2.0, Babel transpilation is provided out of the box. This
+will enable you to use ES6 syntax features in your code and have them transpiled
+down to ES5 for browser compatibility.
+
+If enabled, by default, all JS files in `src/rc` and `srcTest/rc` will be
+transpiled into the `build` directory for packaging into the final JAR. In
+conjunction, Karma will look in `build/karma` to run tests against the
+transpiled files. (If using `grunt-init-niagara`, check your paths config in
+`browserMain.js` to ensure RequireJS is looking in `build/karma`.)
+
+The transpilation can be configured using the `source` and `test` properties as
+described below.
+
+```
+// I might only want to transpile the files in the es6 directory rather than the
+// entirety of my src directory.
+babel: {
+  source: {
+    'build/src/rc': 'es6/rc'
+  },
+  test: {
+    'build/srcTest/rc/spec': 'es6/spec'
+  }
+}
+```
+
+**Minimal config:**
+
+No configuration necessary. An empty object will enable the default
+transpilation behavior.
+
+### `copy`
+
+You may want certain files to be copied directly into the JAR without any sort
+of linting or testing, such as third-party libraries you did not create. The
+default behavior is to simply copy over any non-JS files in `src/rc` and
+`srcTest/rc`, and any files at all in `src/ext` and `srcTest/ext`. Remember to
+include these `ext` directories in your Gradle file if needed.
+
+**Minimal config:**
+
+No configuration necessary - will always be available.
+
 ### `niagara.station`
 
 Configures a station to start up for Karma tests. See the `niagara-station` npm
 module.
-
-### `plato`
-
-Performs complexity/maintainability analysis. Report will be placed in
-`complexity-reports-dir`.
-
-**Minimal config:**
-
-`src`: array of file definitions to analyze with Plato.
 
 ### `pkg`
 
@@ -185,7 +223,7 @@ described.
 
 ### `watch`
 
-Starts up in watch mode, performing JSHint analysis and running Karma tests
+Starts up in watch mode, performing ESLint analysis and running Karma tests
 every time you save a file.
 
 If you want to customize which Grunt tasks are run when you save a file, pass
@@ -195,11 +233,29 @@ a function as a `tasks` parameter like this:
 watch: {
   src: SRC_FILES,
   tasks: function (defaultTasks) {
-    // the default tasks run JSHint followed by Karma.
+    // the default tasks run ESLint followed by Karma.
     return [ 'run-first' ].concat(defaultTasks).concat([ 'run-after' ]);
   }
 }
 ```
+
+As of `grunt-niagara` 2.0, the `watch` task will be configured to run linting
+and transpilation only on those files which were actually changed, which will
+help speed up development. To disable this behavior so *all* files are linted
+and transpiled on every change, set the `onDemand` option to `false`:
+
+```
+watch: {
+  options: { onDemand: false },
+  src: SRC_FILES
+}
+```
+
+By default, Babel will perform one full run when starting up watch mode. This
+will ensure that all files are correctly transpiled (otherwise files that were
+changed while watch was not running, such as when pulling from source control,
+would be missed). To skip this initial Babel run, pass the option
+`--quick-start=true`.
 
 **Minimal config:**
 
@@ -207,9 +263,9 @@ watch: {
 
 ## Global Options
 
-If for some reason you want to be able to override command-line options, you can
-do so using an options configuration file by using the `options` command-line
-argument.
+If you would like to customize the default values for command-line options, you
+can do so using an options configuration file by using the `options`
+command-line argument.
 
 ```
 grunt <task> --options="optionsFile.json"

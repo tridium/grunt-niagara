@@ -1,19 +1,17 @@
 Thanks for helping develop the next generation of Niagara web applications!
 
-The grunt-niagara plugin is configured to do up to four things: lint your files,
-run unit tests, generate docs, and do complexity analysis.
+The grunt-niagara plugin is configured to do several things: lint your files,
+run unit tests, and generate docs.
 
 Here are the available tasks:
-{{#if jshint}}
-grunt jshint: lint all files
-                jshint:src - output results to screen
-                jshint:ci - output results to a JUnit XML file{{/if}}{{#if karma}}
+{{#if eslint}}
+grunt eslint: lint all files
+                eslint:src - output results to screen
+                eslint:ci - output results to a JUnit XML file{{/if}}{{#if karma}}
 grunt karma:  do a single test run in Karma using PhantomJS{{/if}}{{#if jsdoc}}
-grunt jsdoc:  generate JSDocs{{/if}}{{#if plato}}
-grunt plato:  generate complexity analysis docs{{/if}}{{#if watch}}
-grunt watch:  spin up in background and run {{#if jshint}}JSHint{{/if}}{{#if karma}} and Karma{{/if}} tests
+grunt jsdoc:  generate JSDocs{{/if}}{{#if watch}}
+grunt watch:  spin up in background and run {{#if eslint}}ESLint{{/if}}{{#if karma}} and Karma{{/if}} tests
               whenever a file changes{{/if}}
 grunt ci:     perform continuous integration tasks
-grunt all:    run everything!
 
 grunt flags:  print a list of available configuration flags

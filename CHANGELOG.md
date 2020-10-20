@@ -1,3 +1,12 @@
+<a name="2.0.0"></a>
+## 2.0.0 (2020/10/20)
+
+* Add Babel transpilation to allow ES6, JSX etc. to be transpiled.
+* Switch default linter from JSHint to ESLint.
+* Remove Plato.
+* Add --quick-start command line flag.
+* Change default browser from PhantomJS to ChromeHeadless.
+
 <a name="1.2.1"></a>
 ## 1.2.1 (2020/10/19)
 

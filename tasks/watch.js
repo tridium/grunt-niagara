@@ -1,15 +1,18 @@
+/* eslint-env node */
+
 /** @module */
 
 'use strict';
 
 var watchConfig = require('../conf/watchConfig'),
-    loadTasksRelative = require('../lib/loadTasksRelative');
+    loadTasksRelative = require('../lib/loadTasksRelative'),
+    parseOptions = require('../lib/parseOptions');
 
 /**
  * The `watch` task spins up a Niagara station (if necessary) and a Karma
- * server, then executes JSHint and Karma tests on every file save.
+ * server, then executes ESLint and Karma tests on every file save.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   if (!grunt.config('watch')) {
@@ -17,17 +20,30 @@ module.exports = function (grunt) {
   }
 
   loadTasksRelative(grunt, 'grunt-contrib-watch');
-  grunt.config('_watch', watchConfig(grunt));
-  grunt.renameTask('watch', '_watch');
+
+  // rename to "watchForChange" b/c we hijack the default watch task list,
+  // and the default watch task always prints last even though it becomes a
+  // no-op. just reads nicer to the user
+  grunt.config('watchForChange', watchConfig(grunt));
+  grunt.renameTask('watch', 'watchForChange');
 
   var tasks = [];
+  var opts = parseOptions(grunt);
+
+  var newChangesOnly = String(opts['quick-start']) === 'true';
+  if (!newChangesOnly) {
+    if (grunt.config('babel')) {
+      tasks.push('babel:watch');
+      tasks.push('copy');
+    }
+  }
 
   if (grunt.config('karma')) {
     tasks.push('karma:watch');
     tasks.push('karma-connect');
   }
 
-  tasks.push('_watch');
+  tasks.push('watchForChange');
 
   grunt.registerTask('watch', tasks);
 };

@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 /** @module */
 
 'use strict';
@@ -12,7 +14,7 @@ var parseOptions = require('../lib/parseOptions'),
  *
  * @private
  * @inner
- * @param {external:Grunt} grunt
+ * @param {IGrunt} grunt
  * @param {grunt-niagara~Options} opts parsed grunt options
  * @param {Object} obj object to extend
  * @returns {Object} options object configured for Karma to run code coverage
@@ -47,8 +49,8 @@ function enableCodeCoverage(grunt, opts, obj) {
  * a `watch` task); and `karma:ci` which is the same as `karma` but with code
  * coverage reports turned on.
  *
- * @param {external:Grunt} grunt
- * @returns {Object} `karma` Grunt configuration object
+ * @param {IGrunt} grunt
+ * @returns {Object} configuration for `karma` task
  */
 module.exports = function (grunt) {
   let opts = parseOptions(grunt),
@@ -72,7 +74,7 @@ module.exports = function (grunt) {
         proxies: {
           '/niagara-test-server/': 'http://localhost:' + testServerPort + '/public/'
         }
-      }, karmaOptions),
+      }),
 
       karmaPort = grunt.config.getRaw('karma.options.port') || karmaDefaults.port,
       karmaHostname = grunt.config.get('karma.options.hostname') || karmaDefaults.hostname,
@@ -85,7 +87,7 @@ module.exports = function (grunt) {
     chromeFlags = chromeFlags.split(',');
 
     defaultOptions = extend(defaultOptions, {
-      browsers: defaultOptions.browsers.map(b => b.replace('Chrome', 'ChromeWithFlags')),
+      browsers: defaultOptions.browsers.map((b) => b.replace('Chrome', 'ChromeWithFlags')),
       customLaunchers: {
         ChromeWithFlags: { base: 'Chrome', flags: chromeFlags },
         ChromeWithFlagsHeadless: { base: 'ChromeHeadless', flags: chromeFlags }
@@ -113,11 +115,24 @@ module.exports = function (grunt) {
   if (String(opts.coverage) === 'true') {
     defaultOptions = enableCodeCoverage(grunt, opts, defaultOptions);
   }
+
+  // if transpiling is enabled, change the Karma proxy to look for test modules
+  // inside the folder specifically transpiled for Karma.
+  if (grunt.config('babel')) {
+    defaultOptions.files = [
+      'build/karma/srcTest/rc/browserMain.js',
+      { pattern: 'build/**/*', included: false }
+    ];
+    defaultOptions.proxies['/module/' + moduleName + '/'] =
+      'http://' + karmaHostname + ':' + karmaPort + '/base/build/karma/src/';
+    defaultOptions.proxies['/module/' + moduleName + 'Test/'] =
+      'http://' + karmaHostname + ':' + karmaPort + '/base/build/karma/srcTest/';
+  }
   
   let ciReporters = [ 'progress', 'junit', 'coverage', 'html' ];
 
   results = {
-    options: defaultOptions,
+    options: extend(defaultOptions, karmaOptions),
 
     watch: {
       // in watch mode, the background flag will let us spawn off a child

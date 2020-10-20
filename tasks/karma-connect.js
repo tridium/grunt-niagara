@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 /** @module */
 
 'use strict';
@@ -11,7 +13,7 @@ var path = require('path'),
  * Karma runner. No need to call it directly; it will automatically run during
  * the `watch` task to provide information on connecting mobile devices etc.
  *
- * @param {Grunt} grunt
+ * @param {IGrunt} grunt
  */
 module.exports = function (grunt) {
   grunt.registerTask('karma-connect',
