@@ -1,3 +1,29 @@
+<a name="2.0.0"></a>
+## 2.0.0 (2020/10/20)
+
+* Add Babel transpilation to allow ES6, JSX etc. to be transpiled.
+* Switch default linter from JSHint to ESLint.
+* Remove Plato.
+* Add --quick-start command line flag.
+* Change default browser from PhantomJS to ChromeHeadless.
+
+<a name="1.2.1"></a>
+## 1.2.1 (2020/10/19)
+
+* Temporarily revert dependency update.
+
+<a name="1.2.0"></a>
+## 1.2.0 (2020/10/19)
+
+* Update all dependencies.
+
+<a name="1.1.0"></a>
+## 1.1.0 (2019/07/17)
+
+* Add ability to override options and configuration using the --options and
+--config command-line flags. By default, these look for `my-grunt-options.json`
+and `my-grunt-config.json` in `niagara_user_home/bin`.
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2018/12/27)
 
