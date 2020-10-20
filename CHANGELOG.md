@@ -1,3 +1,8 @@
+<a name="1.2.1"></a>
+## 1.2.1 (2020/10/19)
+
+* Temporarily revert dependency update.
+
 <a name="1.2.0"></a>
 ## 1.2.0 (2020/10/19)
 
