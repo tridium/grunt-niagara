@@ -21,7 +21,7 @@ module.exports = function (grunt) {
   var opts = parseOptions(grunt),
       stationCwd = opts['station-cwd'],
       stationsDir = opts['stations-dir'],
-      niagaraUserHome = opts['niagara-user-home'],
+      niagaraHome = opts['niagara-home'],
       testServerPort = opts['niagara-test-server-port'],
       stationName = opts['station-name'],
       httpPort = opts['station-http-port'],
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
 
   newConfig = {
     testServer: {
-      moduleDevFilePath: path.join(niagaraUserHome, 'etc', 'moduledev.properties'),
+      moduleDevFilePath: path.join(niagaraHome, 'etc', 'moduledev.properties'),
       host: '127.0.0.1',
       port: testServerPort
     }
