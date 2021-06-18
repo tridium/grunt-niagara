@@ -107,7 +107,10 @@ module.exports = function (grunt) {
           files: [ { src: out, dest: out } ]
         });
         grunt.config('uglify.builtfile_' + buildName, {
-          files: [ { src: out, dest: out } ]
+          files: [ { src: out, dest: out } ],
+          options: {
+            banner: options.banner || ''
+          }
         });
       }
 
