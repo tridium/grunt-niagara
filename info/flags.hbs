@@ -37,10 +37,19 @@ between different Niagara modules.
     inject station-http-port and station-fox-port into config.bog before
     starting up the test station (useful for CI server where multiple tests
     must run at once)
+--karma-server-port (default: {{ karma-server-port }})
+    the port used by the Karma server
+--niagara-test-server-port (default: {{ niagara-test-server-port }})
+    the port used by niagara-test-server
+--port-bump (default: {{ port-bump }})
+    when developing multiple modules at once, the multiple running stations and
+    Karma servers can have port collisions. Use this when spinning up a second
+    (or third...) grunt-niagara instance so increment all the ports so they can
+    run simultaneously.
 --browsers (default: {{ browsers }})
     a comma-separated list of browsers for Karma to start up
     (available browsers: Chrome, ChromeHeadless, ChromeCanary, Safari, Firefox,
-                         Opera, PhantomJS, IE)
+                         Opera, IE)
 --chrome-flags
     if using Chrome, add an optional, comma-separated list of flags to pass to
     the executable

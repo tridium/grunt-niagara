@@ -58,6 +58,7 @@ module.exports = function (grunt) {
       pkgName = pkg.name,
       moduleName = pkgName.replace(/-(ux|rt|wb|se|doc)$/, ''),
       karmaOptions = grunt.config.getRaw('karma.options'),
+      karmaServerPort = opts['karma-server-port'],
       testServerPort = opts['niagara-test-server-port'],
       junitDir = opts['junit-reports-dir'],
       stationHost = opts['station-host'],
@@ -65,6 +66,8 @@ module.exports = function (grunt) {
       chromeFlags = opts['chrome-flags'],
 
       defaultOptions = extend(true, {}, karmaDefaults, {
+        port: karmaServerPort,
+
         junitReporter: {
           outputFile: path.resolve(junitDir + '/' + pkgName + '.xml')
         },
