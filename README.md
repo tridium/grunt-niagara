@@ -110,6 +110,15 @@ placed in `coverage-reports-dir`.
 If `niagara.station` config is present, it will start a station prior to running
 tests.
 
+As of `grunt-niagara` version 2, the default browser for running tests is
+`ChromeHeadless`. If Chrome cannot be found when running tests, do one of the
+following:
+
+- Add a CHROME_BIN environment variable pointing to a valid `chrome.exe`
+- Install `puppeteer` globally (e.g. `npm install -g puppeteer`), and ensure
+  that the global `node_modules` directory is in your `NODE_PATH` environment
+  variable.
+
 **Minimal config:**
 
 No configuration necessary. An empty object will enable Karma tests.
