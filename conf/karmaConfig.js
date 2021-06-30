@@ -79,8 +79,8 @@ module.exports = function (grunt) {
         }
       }),
 
-      karmaPort = grunt.config.getRaw('karma.options.port') || karmaDefaults.port,
-      karmaHostname = grunt.config.get('karma.options.hostname') || karmaDefaults.hostname,
+      karmaPort = grunt.config.getRaw('karma.options.port') || defaultOptions.port,
+      karmaHostname = grunt.config.get('karma.options.hostname') || defaultOptions.hostname,
 
       results;
 
