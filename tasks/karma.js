@@ -32,7 +32,8 @@ module.exports = function (grunt) {
     if (browsers.match(/Chrome/) || browsers.match(/Chromium/)) {
       if (!getChromeBin(grunt)) {
         throw new Error('Chrome/Chromium selected as browser, but could not ' +
-          'find corresponding executable. See README for more information.');
+          'find corresponding executable. Visit ' +
+          'https://github.com/tridium/grunt-niagara/tree/dev#karma for more information.');
       }
     }
 
