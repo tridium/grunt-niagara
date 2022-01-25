@@ -1,3 +1,10 @@
+<a name="2.1.0"></a>
+## 2.1.0 (2022/01/25)
+
+- Removed PhantomJS.
+- Added "banner" option for requirejs task.
+- Added --port-bump command line flag.
+
 <a name="2.0.0"></a>
 ## 2.0.0 (2020/10/20)
 
