@@ -3,11 +3,7 @@
 'use strict';
 
 const extend = require('../lib/deepExtend');
-const { flatten, map } = require('lodash');
-const { allConfigFiles, allFiles } = require('../lib/gruntSources');
-
-const srcExt = { 'build/src/ext': 'src/ext' };
-const srcTestExt = { 'build/srcTest/ext': 'srcTest/ext' };
+const { getSourceMappings } = require('../lib/gruntSources');
 
 /**
  * @param {IGrunt} grunt
@@ -15,64 +11,20 @@ const srcTestExt = { 'build/srcTest/ext': 'srcTest/ext' };
  */
 module.exports = function (grunt) {
   const copyConfig = grunt.config.getRaw('copy') || {};
-  const babelConfig = grunt.config.getRaw('babel') || {};
 
-  const {
-    source = { 'build/src/rc': 'src/rc' },
-    test = { 'build/srcTest/rc': 'srcTest/rc' }
-  } = babelConfig;
+  const { resources, testResources, ext, testExt } = getSourceMappings(grunt);
+  const copyMappings = [ resources, testResources, ext, testExt ];
 
   return extend({
     dist: {
-      files: flatten([
-        toDistFolder(source, allConfigFiles()),
-        toDistFolder(test, allConfigFiles()),
-        toDistFolder(srcExt, allFiles()),
-        toDistFolder(srcTestExt, allFiles())
-      ])
+      files: copyMappings.map((mapping) => mapping.forProd())
     },
     es: {
-      files: flatten([
-        toESFolder(source, allConfigFiles()),
-        toESFolder(test, allConfigFiles()),
-        toESFolder(srcExt, allFiles()),
-        toESFolder(srcTestExt, allFiles())
-      ])
+      files: copyMappings.map((mapping) => mapping.forRequireJs())
     },
     karma: {
-      files: flatten([
-        toKarmaFolder(source, allConfigFiles()),
-        toKarmaFolder(test, allConfigFiles()),
-        toKarmaFolder(srcExt, allFiles()),
-        toKarmaFolder(srcTestExt, allFiles())
-      ])
+      files: copyMappings.map((mapping) => mapping.forKarma())
     }
   }, copyConfig);
 };
 
-/**
- * @param {object} dirMap dest dir -> source dir mapping
- * @param {object} gruntSrc
- * @returns {Array.<object>} Grunt file config objects
- */
-function toDistFolder(dirMap, gruntSrc) {
-  return map(dirMap, (src, dest) => gruntSrc.from(src).to(dest));
-}
-
-/**
- * @param {object} dirMap dest dir -> source dir mapping
- * @param {object} gruntSrc
- * @returns {Array.<object>} Grunt file config objects
- */
-function toKarmaFolder(dirMap, gruntSrc) {
-  return map(dirMap, (src, dest) => gruntSrc.from(src).toKarma(dest));
-}
-
-/**
- * @param {object} dirMap dest dir -> source dir mapping
- * @param {object} gruntSrc
- * @returns {Array.<object>} Grunt file config objects
- */
-function toESFolder(dirMap, gruntSrc) {
-  return map(dirMap, (src, dest) => gruntSrc.from(src).toES(dest));
-}

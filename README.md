@@ -110,6 +110,15 @@ placed in `coverage-reports-dir`.
 If `niagara.station` config is present, it will start a station prior to running
 tests.
 
+As of `grunt-niagara` version 2, the default browser for running tests is
+`ChromeHeadless`. If Chrome cannot be found when running tests, do one of the
+following:
+
+- Add a CHROME_BIN environment variable pointing to a valid `chrome.exe`
+- Install `puppeteer` globally (e.g. `npm install -g puppeteer`), and ensure
+  that the global `node_modules` directory is in your `NODE_PATH` environment
+  variable.
+
 **Minimal config:**
 
 No configuration necessary. An empty object will enable Karma tests.
@@ -126,21 +135,8 @@ conjunction, Karma will look in `build/karma` to run tests against the
 transpiled files. (If using `grunt-init-niagara`, check your paths config in
 `browserMain.js` to ensure RequireJS is looking in `build/karma`.)
 
-The transpilation can be configured using the `source` and `test` properties as
+The transpilation can be configured using the `sourceMappings` property as
 described below.
-
-```
-// I might only want to transpile the files in the es6 directory rather than the
-// entirety of my src directory.
-babel: {
-  source: {
-    'build/src/rc': 'es6/rc'
-  },
-  test: {
-    'build/srcTest/rc/spec': 'es6/spec'
-  }
-}
-```
 
 **Minimal config:**
 
@@ -260,6 +256,47 @@ would be missed). To skip this initial Babel run, pass the option
 **Minimal config:**
 
 `src`: array of file definitions that will trigger a test run when saved.
+
+### `sourceMappings`
+
+`grunt-niagara` provides transpilation and RequireJS optimization out of the
+box. These functions also make some assumptions about the structure of your
+module (the same structure we use at Tridium):
+
+- All JS to be transpiled lives in `src/rc`
+- All CSS, HTML, images, etc. to be used as-is also live in `src/rc`
+- All test code lives in `srcTest/rc`
+- All external dependencies live in `src/ext`, or `srcTest/ext` for test-only
+  dependencies - these are to be used without modification
+
+But you may wish to retrofit `grunt-niagara` to an existing module, and you may
+not want to move all your files around to conform to these conventions. You can
+point `grunt-niagara` at different directories using the `sourceMappings`
+config. You can build this by hand, but the `gruntSources` module includes some
+APIs that will make this much easier.
+
+Please note that customization is not unlimited - all transpilation must target
+`build/src` or `build/srcTest` or their subdirectories.
+
+An example is below:
+
+```
+const { allFiles, allJsFiles, allFilesWithoutExtensions } = require('grunt-niagara/lib/gruntSources');
+
+///...
+sourceMappings: {
+  // say my ES6 code lives in src/es6, not src/rc...
+  source: allJsFiles().from('src/es6').to('build/src/es6'),
+
+  // ...and my css and images aren't in src/rc, they're in src/com/mycompany instead...
+  resources: allFilesWithoutExtensions([ 'js', 'java' ]).from('src/com/mycompany').to('build/src/com/mycompany'),
+
+  // ... and i put my third party dependencies in src/lib instead of src/ext.
+  ext: allFiles().from('src/lib').to('build/src/lib')
+
+  // the corresponding test properties are test, testResources, and testExt
+}
+```
 
 ## Global Options
 

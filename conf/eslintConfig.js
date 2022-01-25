@@ -26,7 +26,7 @@ module.exports = function (grunt) {
     oldConfig = grunt.config.getRaw('eslint') || {},
     src = oldConfig.src,
     configFile = path.join(__dirname, '..', '.eslintrc.json'),
-    reportsDir = opts['eslint-reports-dir'] || opts['jshint-reports-dir'],
+    reportsDir = opts['jshint-reports-dir'] || opts['eslint-reports-dir'],
     outputFile = path.join(reportsDir, moduleName + '-eslint.xml');
 
   const newConfig = {

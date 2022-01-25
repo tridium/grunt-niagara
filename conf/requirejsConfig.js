@@ -4,11 +4,13 @@
 
 'use strict';
 
-var extend = require('../lib/deepExtend'),
-    loadTasksRelative = require('../lib/loadTasksRelative'),
-    moduledev = require('niagara-moduledev'),
-    defaultOptions = require('./defaults/requirejsDefaults'),
-    pify = require('pify');
+const extend = require('../lib/deepExtend');
+const { getSourceMappings } = require('../lib/gruntSources');
+const loadTasksRelative = require('../lib/loadTasksRelative');
+const moduledev = require('niagara-moduledev');
+const defaultOptions = require('./defaults/requirejsDefaults');
+const pify = require('pify');
+const path = require('path');
 
 function toNmoduleRequireJsId(filePath, moduleName) {
   return `nmodule/${ moduleName }/${ filePath.replace(/\.js$/, '') }`;
@@ -91,9 +93,14 @@ module.exports = function (grunt) {
       if (buildName === 'src') {
         const toRequireJsId = options.toRequireJsId || toNmoduleRequireJsId;
 
-        options.include = options.include ||
-          grunt.file.expand({ cwd: 'src' }, [ '**/*.js', '!**/*.built.min.js' ])
+        if (!options.include) {
+          const { source } = getSourceMappings(grunt);
+          const { cwd, src } = source;
+
+          options.include = grunt.file.expand({ cwd }, src)
+            .map((relPath) => path.join(cwd, relPath).replace(/\\/g, '/').replace(/^src\//, ''))
             .map((filePath) => toRequireJsId(filePath, moduleName));
+        }
       }
 
       const out = options.out || 'build/src/rc/' + moduleName + '.built.min.js';
@@ -107,7 +114,10 @@ module.exports = function (grunt) {
           files: [ { src: out, dest: out } ]
         });
         grunt.config('uglify.builtfile_' + buildName, {
-          files: [ { src: out, dest: out } ]
+          files: [ { src: out, dest: out } ],
+          options: {
+            banner: options.banner || ''
+          }
         });
       }
 
