@@ -46,7 +46,6 @@ module.exports = function (grunt) {
   newConfig = {
     testServer: {
       moduleDevFilePath: path.join(niagaraHome, 'etc', 'moduledev.properties'),
-      host: '127.0.0.1',
       port: testServerPort
     }
   };
