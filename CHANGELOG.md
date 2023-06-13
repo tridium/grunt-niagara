@@ -1,3 +1,8 @@
+<a name="2.1.1"></a>
+## 2.1.1 (2023/06/08)
+
+* Fix IPv6 problem preventing compatibility with Node v18 (#22).
+
 <a name="2.1.0"></a>
 ## 2.1.0 (2022/01/25)
 
@@ -13,6 +18,11 @@
 * Remove Plato.
 * Add --quick-start command line flag.
 * Change default browser from PhantomJS to ChromeHeadless.
+
+<a name="1.2.2"></a>
+## 1.2.2 (2023/06/13)
+
+* Fix IPv6 problem preventing compatibility with Node v18 (#22).
 
 <a name="1.2.1"></a>
 ## 1.2.1 (2020/10/19)
