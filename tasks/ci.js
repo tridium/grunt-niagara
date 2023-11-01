@@ -16,6 +16,9 @@ module.exports = function (grunt) {
   }
 
   if (grunt.config('karma')) {
+    if (grunt.option('test-with-builtfiles')) {
+      tasks.push('requirejs');
+    }
     tasks.push('karma:ci');
   }
 

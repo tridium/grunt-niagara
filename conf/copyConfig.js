@@ -12,8 +12,8 @@ const { getSourceMappings } = require('../lib/gruntSources');
 module.exports = function (grunt) {
   const copyConfig = grunt.config.getRaw('copy') || {};
 
-  const { resources, testResources, ext, testExt } = getSourceMappings(grunt);
-  const copyMappings = [ resources, testResources, ext, testExt ];
+  const { resources, testResources, ext, testExt, testBuiltJs } = getSourceMappings(grunt);
+  const copyMappings = [ resources, testResources, ext, testExt, testBuiltJs ];
 
   return extend({
     dist: {
