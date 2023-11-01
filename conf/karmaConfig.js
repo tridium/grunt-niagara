@@ -114,6 +114,19 @@ module.exports = function (grunt) {
     defaultOptions.proxies['/module/'] = 'http://localhost:' + testServerPort + '/module/';
   }
 
+  if (grunt.option('test-with-builtfiles')) {
+    grunt.config.merge({
+      niagara: {
+        testServer: {
+          globals: {
+            testWithBuiltfiles: true,
+            moduleName: grunt.config('pkg.name').replace(/-ux$/, '')
+          }
+        }
+      }
+    });
+  }
+
   //always generate coverage if --coverage flag is set
   if (String(opts.coverage) === 'true') {
     defaultOptions = enableCodeCoverage(grunt, opts, defaultOptions);

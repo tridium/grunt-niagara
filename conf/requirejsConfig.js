@@ -121,6 +121,21 @@ module.exports = function (grunt) {
         });
       }
 
+      if (grunt.option('test-with-builtfiles')) {
+        const { out: builtfile } = options;
+        const builtfiles = grunt.config('niagara.testServer.globals.builtfiles') || [];
+        builtfiles.push(builtfile.replace(/\.js$/, '').replace(/^build\/src/, 'nmodule'));
+        grunt.config.merge({
+          niagara: {
+            testServer: {
+              globals: {
+                builtfiles
+              }
+            }
+          }
+        });
+      }
+
       applyDisablePlugins(options);
       
       return toPaths(options.moduleResources)

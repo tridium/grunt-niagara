@@ -72,6 +72,11 @@ between different Niagara modules.
 --testNever
     this is a regex string. Specs whose description matches this string will
     never be executed by Karma.
+--test-with-builtfiles
+    instructs tests to preload any builtfiles before running, meaning that the
+    test run will be closer to production conditions. It will only enable
+    builtfiles from the module being tested, and requires the "name" field in
+    your module's package.json to be correct.
 --options (default: {{ options }})
     this is a JSON file that is used to override the default grunt
     command-line options.  See README.md for more details.
