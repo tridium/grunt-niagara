@@ -1,3 +1,8 @@
+<a name="2.1.2"></a>
+## 2.1.2 (2023/11/01)
+
+* Add `--test-with-builtfiles` command line flag.
+
 <a name="2.1.1"></a>
 ## 2.1.1 (2023/06/08)
 
