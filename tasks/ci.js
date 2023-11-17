@@ -16,7 +16,7 @@ module.exports = function (grunt) {
   }
 
   if (grunt.config('karma')) {
-    if (grunt.option('test-with-builtfiles')) {
+    if (grunt.option('test-with-builtfiles') && grunt.config('requirejs')) {
       tasks.push('requirejs');
     }
     tasks.push('karma:ci');
