@@ -1,3 +1,8 @@
+<a name="2.1.3"></a>
+## 2.1.3 (2023/11/17)
+
+* Do not add `requirejs` task to CI if RequireJS is not configured.
+
 <a name="2.1.2"></a>
 ## 2.1.2 (2023/11/01)
 
