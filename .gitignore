@@ -1,3 +1,5 @@
 node_modules
 grunt-niagara.iml
 *~
+.idea
+yarn-error.log
