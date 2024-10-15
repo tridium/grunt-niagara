@@ -13,7 +13,7 @@ var extend = require('../lib/deepExtend'),
  * Sets up defaults for
  * [grunt-jsdoc](https://github.com/krampstudio/grunt-jsdoc-plugin).
  * Documentation will be generated using
- * [ink-docstrap](https://github.com/terryweiss/docstrap),
+ * [docdash](https://github.com/clenemt/docdash),
  * `lenient` will set set to true, and docs will go in `src/jsdoc`.
  *
  * @param {IGrunt} grunt
@@ -21,8 +21,7 @@ var extend = require('../lib/deepExtend'),
  */
 module.exports = function (grunt) {
   var defaultJsdocPath = path.resolve(require.resolve('grunt-jsdoc'), '..', 'jsdoc', 'jsdoc'),
-      defaultTemplatePath = path.resolve(require.resolve('ink-docstrap'), '..'),
-
+      defaultTemplatePath = path.resolve(require.resolve('docdash'), '..'),
       oldConfig = grunt.config.getRaw('jsdoc') || {},
       src = oldConfig.src,
       newConfig = {

@@ -2,21 +2,30 @@
   "tags"      : {
     "allowUnknownTags" : true
   },
-  "plugins"   : ["plugins/markdown"],
+  "plugins"   : [
+    "plugins/markdown"
+  ],
+  "docdash": {
+    "wrap" : "true",
+    "search": true,
+    "collapse": "top",
+    "typedefs": true,
+    "meta" : {
+      "title" : "{{ moduleName }}"
+    }
+  },
   "templates" : {
     "cleverLinks"     : false,
     "monospaceLinks"  : false,
     "default"         : {
-      "outputSourceFiles" : true
+      "outputSourceFiles" : true,
+      "includeDate": false,
+      "layoutFile": "{{ layoutFile }}"
     },
-    "systemName"      : "{{ name }}",
-    "footer"          : "",
-    "copyright"       : "{{ name }} Copyright © {{ copyrightYear }} Tridium. DocStrap Copyright © 2012-2013 the contributors to the JSDoc3 and DocStrap projects.",
-    "navType"         : "vertical",
-    "theme"           : "cerulean",
+    "systemName"      : "{{ moduleName }}",
+    "copyright"      :  "{{ moduleName }} Copyright © {{ copyrightYear }} Tridium. docdash Copyright © 2016 the contributors to the JSDoc and docdash projects.",
     "linenums"        : true,
-    "collapseSymbols" : false,
-    "inverseNav"      : true
+    "collapseSymbols" : false
   },
   "markdown"  : {
     "parser"   : "gfm",

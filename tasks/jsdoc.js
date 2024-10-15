@@ -13,7 +13,7 @@ var templateAndPrint = require('../lib/templateAndPrint'),
     UNLINK_TASK_NAME = '__cleanupTempFiles';
 
 /**
- * The `jsdoc` task generates JSDoc documentation using Docstrap.
+ * The `jsdoc` task generates JSDoc documentation using Docdash.
  *
  * @param {IGrunt} grunt
  */
@@ -28,23 +28,25 @@ module.exports = function (grunt) {
 
   grunt.registerMultiTask('jsdoc', 'Performs JSDoc build', function () {
     var pkg = grunt.file.readJSON('package.json'),
-        docstrapFile = new Tempfile(),
-        docstrapConf = path.resolve(__dirname, '../conf/jsdoc.conf.hbs');
+        docFile = new Tempfile(),
+        docConf = path.resolve(__dirname, '../conf/jsdoc.conf.hbs');
 
-    docstrapFile.writeFileSync(templateAndPrint(docstrapConf, {
+    docFile.writeFileSync(templateAndPrint(docConf, {
       name: pkg.name,
-      copyrightYear: new Date().getFullYear()
+      moduleName: pkg.name.replace(/-(ux|rt|wb|se|doc)$/, ''),
+      copyrightYear: new Date().getFullYear(),
+      layoutFile: path.resolve(__dirname, '../conf/layout.tmpl').replace(/\\/g, "/")
     }));
 
     grunt.registerTask(UNLINK_TASK_NAME, function () {
-      docstrapFile.unlinkSync();
+      docFile.unlinkSync();
 
       //TODO: uncomment after unregisterTasks makes it into master
       // grunt.unregisterTasks([ UNLINK_TASK_NAME ]);
     });
 
     grunt.config('_jsdoc', jsdocConfig(grunt));
-    grunt.config('_jsdoc.options.configure', docstrapFile.path);
+    grunt.config('_jsdoc.options.configure', docFile.path);
     grunt.task.run('_jsdoc', UNLINK_TASK_NAME);
   });
 };
