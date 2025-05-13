@@ -52,7 +52,9 @@ between different Niagara modules.
                          Opera, IE)
 --chrome-flags
     if using Chrome, add an optional, comma-separated list of flags to pass to
-    the executable
+    the executable. This list must be enclosed in a double-quote and each flag must be
+    preceded by a '--'. Note that unlike other command-line options, the flags you
+    pass in will be _merged_ with the default values instead of replacing them.
 --jsdoc-dir (default: {{ jsdoc-dir }})
     the output directory for JSDoc files
 --junit-reports-dir (default: {{ junit-reports-dir }})
