@@ -1,5 +1,5 @@
-<a name="2.2.1"></a>
-## 2.2.1 (2025/03/13)
+<a name="2.2.2"></a>
+## 2.2.2 (2025/05/13)
 
 * Can pass "--chrome-flags" that include commas
 * Added default Chrome flag "--window-size=1920,1080"
