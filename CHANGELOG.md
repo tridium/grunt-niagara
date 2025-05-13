@@ -1,3 +1,14 @@
+<a name="2.2.1"></a>
+## 2.2.1 (2025/03/13)
+
+* Can pass "--chrome-flags" that include commas
+* Added default Chrome flag "--window-size=1920,1080"
+
+<a name="2.2.0"></a>
+## 2.2.0 (2024/10/08)
+
+* Switch jsdoc template from DocStrap to docdash which has JSX support
+
 <a name="2.1.3"></a>
 ## 2.1.3 (2023/11/17)
 
