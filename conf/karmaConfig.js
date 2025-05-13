@@ -87,7 +87,9 @@ module.exports = function (grunt) {
   //pass Chrome flags to the appropriate Chrome launchers, and switch to
   //custom Karma launchers that respect them.
   if (chromeFlags) {
-    chromeFlags = chromeFlags.split(',');
+    if (!Array.isArray(chromeFlags)) {
+      chromeFlags = chromeFlags.split(/,\s*(?=--)/);
+    }
 
     defaultOptions = extend(defaultOptions, {
       browsers: defaultOptions.browsers.map((b) => b.replace('Chrome', 'ChromeWithFlags')),
