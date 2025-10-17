@@ -1,3 +1,8 @@
+<a name="2.3.0"></a>
+## 2.3.0 (2025/10/17)
+
+* Add support for --niagara-config-home option
+
 <a name="2.2.2"></a>
 ## 2.2.2 (2025/05/13)
 
