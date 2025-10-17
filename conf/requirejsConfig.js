@@ -7,6 +7,7 @@
 const extend = require('../lib/deepExtend');
 const { getSourceMappings } = require('../lib/gruntSources');
 const loadTasksRelative = require('../lib/loadTasksRelative');
+const parseOptions = require('../lib/parseOptions');
 const moduledev = require('niagara-moduledev');
 const defaultOptions = require('./defaults/requirejsDefaults');
 const pify = require('pify');
@@ -17,12 +18,12 @@ function toNmoduleRequireJsId(filePath, moduleName) {
 }
 
 let mdPromise;
-function getModuledev() {
-  return mdPromise || (mdPromise = pify(moduledev).fromFile());
+function getModuledev(config) {
+  return mdPromise || (mdPromise = pify(moduledev).fromFile(moduledev.getDefaultFilePath(config)));
 }
 
-function toPaths(moduleResources) {
-  return getModuledev().then((md) => pify(md).getRequireJsPaths(moduleResources));
+function toPaths(moduleResources, moduledevConfig) {
+  return getModuledev(moduledevConfig).then((md) => pify(md).getRequireJsPaths(moduleResources));
 }
 
 function applyDisablePlugins(options) {
@@ -55,7 +56,11 @@ module.exports = function (grunt) {
       masterOptions = config.options,
       moduleName = grunt.config.get('pkg.name').replace(/-(ux|rt|wb|se|doc)$/, ''),
       transpilingEnabled = !!grunt.config('babel'),
+      options = parseOptions(grunt),
       addPath;
+
+  const niagaraHome = options['niagara-home'];
+  const niagaraConfigHome = options['niagara-config-home'];
   
   if (typeof config.src === 'undefined') {
     config.src = {};
@@ -123,7 +128,7 @@ module.exports = function (grunt) {
 
       applyDisablePlugins(options);
       
-      return toPaths(options.moduleResources)
+      return toPaths(options.moduleResources, { niagaraHome, niagaraConfigHome })
         .then(function (paths) {
           options.paths = extend(options.paths, paths);
           grunt.log.debug(buildName + ' options:');
