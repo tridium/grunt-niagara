@@ -29,25 +29,33 @@ module.exports = function (grunt) {
     const opts = parseOptions(grunt);
 
     const { browsers } = opts;
-    if (browsers.match(/Chrome/) || browsers.match(/Chromium/)) {
-      if (!getChromeBin(grunt)) {
-        throw new Error('Chrome/Chromium selected as browser, but could not ' +
-          'find corresponding executable. Visit ' +
-          'https://github.com/tridium/grunt-niagara/tree/dev#karma for more information.');
-      }
-    }
 
     const done = this.async();
 
-    runKarma(grunt, type, this.flags.run, function (err) {
+    const doRunKarma = () => runKarma(grunt, type, this.flags.run, function (err) {
       if (err) {
         grunt.log.writeln("Error running Karma tests: " + err);
+        return done(err);
       }
 
       grunt.log.writeln("\n\nSee test results at: " + opts['junit-reports-dir']);
 
-      return done(!err);
+      done();
     });
+
+    if (browsers.match(/Chrome/) || browsers.match(/Chromium/)) {
+      getChromeBin(grunt)
+        .then((chromeBin) => {
+          if (!chromeBin) {
+            throw new Error('Chrome/Chromium selected as browser, but could not ' +
+              'find corresponding executable. Visit ' +
+              'https://github.com/tridium/grunt-niagara/tree/dev#karma for more information.');
+          }
+        })
+        .then(doRunKarma, (err) => done(err));
+    } else {
+      doRunKarma();
+    }
   });
 
   grunt.registerTask('karma', function () {
@@ -68,7 +76,7 @@ module.exports = function (grunt) {
 };
 
 
-const getChromeBin = once((grunt) => {
+const getChromeBin = once(async (grunt) => {
   let chromeBin = process.env.CHROME_BIN;
   if (chromeBin) {
     grunt.log.debug('Found Chrome executable path from CHROME_BIN ' +
@@ -90,10 +98,10 @@ const getChromeBin = once((grunt) => {
     return chromeBin;
   }
 
-  try {
-    chromeBin = require('puppeteer').executablePath();
-    process.env.CHROME_BIN = chromeBin;
-    grunt.log.debug('Found Chrome executable path from puppeteer: ' + chromeBin);
-    return chromeBin;
-  } catch (ignore) {}
+  return Promise.resolve(require('puppeteer').executablePath())
+    .then((chromeBin) => {
+      process.env.CHROME_BIN = chromeBin;
+      grunt.log.debug('Found Chrome executable path from puppeteer: ' + chromeBin);
+      return chromeBin;
+    });
 });
