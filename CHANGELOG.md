@@ -1,3 +1,8 @@
+<a name="2.3.1"></a>
+## 2.3.1 (2026/10/20)
+
+* Fix bug: puppeteer's `executablePath()` method was incorrectly considered sync when `CHROME_BIN` was not set
+
 <a name="2.3.0"></a>
 ## 2.3.0 (2025/10/17)
 
